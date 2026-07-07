@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 216 33% 95%;
+    --foreground: 240 33% 14%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 33% 14%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 33% 14%;
+    --primary: 1 76% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 216 33% 18%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+    --accent: 42 91% 47%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 1 76% 55%;
+    --radius: 0.75rem;
+    
+    --navy-900: #0A1628;
+    --navy-800: #0F1D32;
+    --navy-700: #1A2744;
+    --navy-600: #243352;
+    --red-500: #E53935;
+    --red-600: #C62828;
+    --amber-400: #F9A825;
+    --amber-500: #F57F17;
+    --blue-400: #42A5F5;
+    --blue-500: #1E88E5;
+    --gold: #C8A45C;
+    
+    --app-bg: #F0F2F5;
+    --app-surface: #FFFFFF;
+    --app-text: #1A1A2E;
+    --app-text-secondary: #6B7280;
+    --app-border: #E5E7EB;
+  }
+
+  .dark {
+    --background: 216 50% 5%;
+    --foreground: 210 40% 96%;
+    --card: 216 45% 8%;
+    --card-foreground: 210 40% 96%;
+    --popover: 216 45% 8%;
+    --popover-foreground: 210 40% 96%;
+    --primary: 1 76% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 216 33% 18%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 216 33% 15%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 42 91% 47%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 216 33% 15%;
+    --input: 216 33% 15%;
+    --ring: 1 76% 55%;
+    
+    --app-bg: #0A1628;
+    --app-surface: #0F1D32;
+    --app-text: #F1F5F9;
+    --app-text-secondary: #94A3B8;
+    --app-border: #1A2744;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow: hidden;
+    touch-action: manipulation;
+    user-select: none;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(66, 165, 245, 0.2); }
+  50% { box-shadow: 0 0 0 4px rgba(66, 165, 245, 0.1); }
+}
+
+@keyframes ai-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(66, 165, 245, 0.4), 0 0 0 0 rgba(66, 165, 245, 0); }
+  70% { box-shadow: 0 0 0 10px rgba(66, 165, 245, 0), 0 0 0 20px rgba(66, 165, 245, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(66, 165, 245, 0), 0 0 0 0 rgba(66, 165, 245, 0); }
+}
+
+@keyframes typing-dot {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-6px); }
+}
+
+@keyframes bounce-in {
+  0% { transform: scale(0.95); opacity: 0; }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slide-out-right {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes loading-dot {
+  0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+  40% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.animate-ai-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-ai-pulse {
+  animation: ai-pulse 2s infinite;
+}
+
+.animate-typing .typing-dot-1 { animation: typing-dot 0.6s infinite; }
+.animate-typing .typing-dot-2 { animation: typing-dot 0.6s infinite 0.15s; }
+.animate-typing .typing-dot-3 { animation: typing-dot 0.6s infinite 0.3s; }
+
+.animate-bounce-in {
+  animation: bounce-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.35s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+.animate-fade-scale-in {
+  animation: fade-scale-in 0.3s ease-out forwards;
+}
+
+.animate-loading-dot-1 { animation: loading-dot 1.2s infinite 0s; }
+.animate-loading-dot-2 { animation: loading-dot 1.2s infinite 0.2s; }
+.animate-loading-dot-3 { animation: loading-dot 1.2s infinite 0.4s; }
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.card-press:active {
+  transform: scale(0.97);
+  opacity: 0.9;
+  transition: all 100ms ease-out;
+}
+
+.card-bounce:active {
+  transform: scale(0.98);
+  transition: all 100ms ease-out;
+}
+
+.card-bounce {
+  transition: transform 200ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
