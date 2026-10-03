@@ -11,8 +11,18 @@ FAILS=0
 check() { if eval "$2"; then echo "PASS: $1"; else echo "FAIL: $1"; FAILS=$((FAILS+1)); fi; }
 applog() { adb logcat -d -s ScreenTranslate:D; }
 
-tap_text() { # app/Chrome UI via uiautomator (last matching node)
+tap_text() { # app/Chrome UI via uiautomator (last matching node); retries flaky dumps
+  local attempt
+  for attempt in 1 2 3 4; do
+    tap_text_once "$1" && return 0
+    sleep 3
+  done
+  echo "text '$1' not found"; return 1
+}
+
+tap_text_once() {
   dismiss_dialogs
+  rm -f /tmp/ui.xml; adb shell rm -f /sdcard/ui.xml
   adb shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1
   adb pull /sdcard/ui.xml /tmp/ui.xml >/dev/null 2>&1
   xy=$(python3 - "$1" <<'PY'
@@ -33,7 +43,7 @@ if hit is not None:
 PY
 )
   if [ -n "$xy" ]; then adb shell input tap $xy; echo "tapped '$1' at $xy"; return 0; fi
-  echo "text '$1' not found"; return 1
+  return 1
 }
 
 tap_ui() { # our overlay windows: positions logged by the debug build
@@ -88,7 +98,7 @@ adb logcat -c
 open_page() {
   adb shell am start -a android.intent.action.VIEW -d "http://localhost:8000/$1" com.android.chrome >/dev/null
   sleep 7
-  tap_text "No thanks"; tap_text "Got it"; sleep 1
+  tap_text_once "No thanks"; tap_text_once "Got it"; sleep 1
 }
 
 # --- onboarding
