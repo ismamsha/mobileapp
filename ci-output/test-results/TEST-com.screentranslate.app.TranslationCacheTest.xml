@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.screentranslate.app.TranslationCacheTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-10-03T14:46:16.314Z" hostname="runnervm8df0l" time="0.007">
+  <properties/>
+  <testcase name="evictsLeastRecentlyUsed" classname="com.screentranslate.app.TranslationCacheTest" time="0.007"/>
+  <testcase name="keyIncludesLanguages" classname="com.screentranslate.app.TranslationCacheTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
