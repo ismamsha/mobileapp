@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.screentranslate.app.LanguageDecisionTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-03T17:21:00.060Z" hostname="runnervm8df0l" time="0.04">
+<testsuite name="com.screentranslate.app.LanguageDecisionTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-03T17:33:50.086Z" hostname="runnervm8df0l" time="0.022">
   <properties/>
-  <testcase name="lowConfidenceLatinIsEnglish" classname="com.screentranslate.app.LanguageDecisionTest" time="0.033"/>
-  <testcase name="cyrillicDefaultsToRussian" classname="com.screentranslate.app.LanguageDecisionTest" time="0.006"/>
+  <testcase name="lowConfidenceLatinIsEnglish" classname="com.screentranslate.app.LanguageDecisionTest" time="0.019"/>
+  <testcase name="cyrillicDefaultsToRussian" classname="com.screentranslate.app.LanguageDecisionTest" time="0.002"/>
   <testcase name="noLettersIsNull" classname="com.screentranslate.app.LanguageDecisionTest" time="0.0"/>
   <testcase name="arabicScriptIsArabic" classname="com.screentranslate.app.LanguageDecisionTest" time="0.0"/>
   <testcase name="shortLatinFallsBackToEnglish" classname="com.screentranslate.app.LanguageDecisionTest" time="0.0"/>

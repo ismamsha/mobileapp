@@ -10,7 +10,7 @@ Success
 + adb shell appops set com.screentranslate.app PROJECT_MEDIA allow
 + adb shell 'echo "chrome --disable-fre --no-default-browser-check --no-first-run" > /data/local/tmp/chrome-command-line'
 + adb shell am set-debug-app --persistent com.android.chrome
-+ SERVER=3705
++ SERVER=3681
 + nohup python3 -m http.server 8000 --directory ci/pages
 + adb reverse tcp:8000 tcp:8000
 8000
@@ -69,15 +69,15 @@ text 'Start now' not found
 + return 1
 + check 'foreground service running' 'adb shell dumpsys activity services com.screentranslate.app | grep -q '\''isForeground=true'\'''
 + eval 'adb shell dumpsys activity services com.screentranslate.app | grep -q '\''isForeground=true'\'''
-++ adb shell dumpsys activity services com.screentranslate.app
 ++ grep -q isForeground=true
+++ adb shell dumpsys activity services com.screentranslate.app
 + echo 'PASS: foreground service running'
 PASS: foreground service running
 + check 'bubble shown' 'applog | grep -q '\''UI_BOUNDS bubble'\'''
 + eval 'applog | grep -q '\''UI_BOUNDS bubble'\'''
-++ grep -q 'UI_BOUNDS bubble'
 ++ applog
 ++ adb logcat -d -s ScreenTranslate:D
+++ grep -q 'UI_BOUNDS bubble'
 + echo 'PASS: bubble shown'
 PASS: bubble shown
 + open_page ru.html
@@ -114,9 +114,9 @@ text 'Got it' not found
 + shot 10-page-ru
 + adb exec-out screencap -p
 ++ shown_count
+++ grep -c 'Shown .* translated blocks'
 ++ applog
 ++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
 + n=0
 + tap_ui bubble
 + dismiss_dialogs
@@ -124,8 +124,8 @@ text 'Got it' not found
 + adb pull /sdcard/ui.xml /tmp/ui.xml
 + grep -q 't responding' /tmp/ui.xml
 ++ applog
-++ grep 'UI_BOUNDS bubble '
 ++ adb logcat -d -s ScreenTranslate:D
+++ grep 'UI_BOUNDS bubble '
 ++ tail -1
 ++ awk '{print $(NF-1), $NF}'
 + xy='985 913'
@@ -155,36 +155,15 @@ tapped ui 'bubble' at 985 913
 ++ for i in $(seq 1 75)
 +++ shown_count
 +++ applog
-+++ grep -c 'Shown .* translated blocks'
 +++ adb logcat -d -s ScreenTranslate:D
-++ '[' 0 -gt 0 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
 +++ grep -c 'Shown .* translated blocks'
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 0 -gt 0 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ grep -c 'Shown .* translated blocks'
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
 ++ '[' 0 -gt 0 ']'
 ++ sleep 2
 ++ for i in $(seq 1 75)
 +++ shown_count
 +++ applog
-+++ grep -c 'Shown .* translated blocks'
 +++ adb logcat -d -s ScreenTranslate:D
-++ '[' 0 -gt 0 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
 +++ grep -c 'Shown .* translated blocks'
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
 ++ '[' 0 -gt 0 ']'
 ++ sleep 2
 ++ for i in $(seq 1 75)
@@ -199,6 +178,55 @@ tapped ui 'bubble' at 985 913
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
 +++ grep -c 'Shown .* translated blocks'
+++ '[' 0 -gt 0 ']'
+++ sleep 2
+++ for i in $(seq 1 75)
++++ shown_count
++++ applog
++++ grep -c 'Shown .* translated blocks'
++++ adb logcat -d -s ScreenTranslate:D
+++ '[' 0 -gt 0 ']'
+++ sleep 2
+++ for i in $(seq 1 75)
++++ shown_count
++++ applog
++++ grep -c 'Shown .* translated blocks'
++++ adb logcat -d -s ScreenTranslate:D
+++ '[' 0 -gt 0 ']'
+++ sleep 2
+++ for i in $(seq 1 75)
++++ shown_count
++++ applog
++++ adb logcat -d -s ScreenTranslate:D
++++ grep -c 'Shown .* translated blocks'
+++ '[' 0 -gt 0 ']'
+++ sleep 2
+++ for i in $(seq 1 75)
++++ shown_count
++++ applog
++++ adb logcat -d -s ScreenTranslate:D
++++ grep -c 'Shown .* translated blocks'
+++ '[' 0 -gt 0 ']'
+++ sleep 2
+++ for i in $(seq 1 75)
++++ shown_count
++++ grep -c 'Shown .* translated blocks'
++++ applog
++++ adb logcat -d -s ScreenTranslate:D
+++ '[' 0 -gt 0 ']'
+++ sleep 2
+++ for i in $(seq 1 75)
++++ shown_count
++++ applog
++++ adb logcat -d -s ScreenTranslate:D
++++ grep -c 'Shown .* translated blocks'
+++ '[' 0 -gt 0 ']'
+++ sleep 2
+++ for i in $(seq 1 75)
++++ shown_count
++++ grep -c 'Shown .* translated blocks'
++++ applog
++++ adb logcat -d -s ScreenTranslate:D
 ++ '[' 0 -gt 0 ']'
 ++ sleep 2
 ++ for i in $(seq 1 75)
@@ -244,11 +272,11 @@ tapped ui 'Show original or translation' at 751 2143
 + adb shell uiautomator dump /sdcard/ui.xml
 + adb pull /sdcard/ui.xml /tmp/ui.xml
 + grep -q 't responding' /tmp/ui.xml
+++ grep 'UI_BOUNDS Show original or translation '
+++ awk '{print $(NF-1), $NF}'
 ++ applog
 ++ adb logcat -d -s ScreenTranslate:D
-++ grep 'UI_BOUNDS Show original or translation '
 ++ tail -1
-++ awk '{print $(NF-1), $NF}'
 + xy='751 2143'
 + '[' -n '751 2143' ']'
 + adb shell input tap 751 2143
@@ -288,20 +316,6 @@ tapped ui 'Translate again' at 417 2143
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
 +++ grep -c 'Shown .* translated blocks'
-++ '[' 1 -gt 1 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ grep -c 'Shown .* translated blocks'
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 1 -gt 1 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ grep -c 'Shown .* translated blocks'
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
 ++ '[' 1 -gt 1 ']'
 ++ sleep 2
 ++ for i in $(seq 1 75)
@@ -402,20 +416,6 @@ tapped ui 'bubble' at 985 913
 ++ applog
 ++ adb logcat -d -s ScreenTranslate:D
 ++ grep -c 'Shown .* translated blocks'
-+ '[' 2 -gt 2 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ grep -c 'Shown .* translated blocks'
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-+ '[' 2 -gt 2 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
 + '[' 3 -gt 2 ']'
 + return 0
 + sleep 2
@@ -442,8 +442,8 @@ tapped ui 'Change target language' at 566 2143
 + adb exec-out screencap -p
 ++ shown_count
 ++ applog
-++ grep -c 'Shown .* translated blocks'
 ++ adb logcat -d -s ScreenTranslate:D
+++ grep -c 'Shown .* translated blocks'
 + n=3
 + tap_ui English
 + dismiss_dialogs
@@ -474,20 +474,6 @@ tapped ui 'English' at 788 2143
 ++ sleep 2
 ++ for i in $(seq 1 75)
 +++ shown_count
-+++ grep -c 'Shown .* translated blocks'
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 3 -gt 3 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 3 -gt 3 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
 +++ grep -c 'Shown .* translated blocks'
@@ -495,9 +481,9 @@ tapped ui 'English' at 788 2143
 ++ sleep 2
 ++ for i in $(seq 1 75)
 +++ shown_count
-+++ grep -c 'Shown .* translated blocks'
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
++++ grep -c 'Shown .* translated blocks'
 ++ '[' 4 -gt 3 ']'
 ++ return 0
 + echo 'PASS: ar->en overlay shown'
@@ -592,8 +578,8 @@ text 'Got it' not found
 + adb exec-out screencap -p
 ++ shown_count
 ++ applog
-++ grep -c 'Shown .* translated blocks'
 ++ adb logcat -d -s ScreenTranslate:D
+++ grep -c 'Shown .* translated blocks'
 + n=4
 + tap_ui bubble
 + dismiss_dialogs
@@ -627,20 +613,6 @@ tapped ui 'bubble' at 985 913
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
 +++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ grep -c 'Shown .* translated blocks'
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
 ++ '[' 5 -gt 4 ']'
 ++ return 0
 + echo 'PASS: en->ru overlay shown'
@@ -655,9 +627,9 @@ PASS: en->ru overlay shown
 + grep -q 't responding' /tmp/ui.xml
 ++ applog
 ++ adb logcat -d -s ScreenTranslate:D
-++ awk '{print $(NF-1), $NF}'
 ++ grep 'UI_BOUNDS Close translation '
 ++ tail -1
+++ awk '{print $(NF-1), $NF}'
 + xy='292 2143'
 + '[' -n '292 2143' ']'
 + adb shell input tap 292 2143
@@ -673,8 +645,8 @@ tapped ui 'Close translation' at 292 2143
 + check 'rotation detected (landscape)' 'applog | grep -q '\''Screen size changed: 2400x1080'\'''
 + eval 'applog | grep -q '\''Screen size changed: 2400x1080'\'''
 ++ applog
-++ grep -q 'Screen size changed: 2400x1080'
 ++ adb logcat -d -s ScreenTranslate:D
+++ grep -q 'Screen size changed: 2400x1080'
 + echo 'PASS: rotation detected (landscape)'
 PASS: rotation detected (landscape)
 ++ shown_count
@@ -705,14 +677,7 @@ tapped ui 'bubble' at 2305 451
 ++ for i in $(seq 1 75)
 +++ shown_count
 +++ applog
-+++ adb logcat -d -s ScreenTranslate:D
 +++ grep -c 'Shown .* translated blocks'
-++ '[' 5 -gt 5 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ grep -c 'Shown .* translated blocks'
-+++ applog
 +++ adb logcat -d -s ScreenTranslate:D
 ++ '[' 5 -gt 5 ']'
 ++ sleep 2
@@ -721,13 +686,6 @@ tapped ui 'bubble' at 2305 451
 +++ grep -c 'Shown .* translated blocks'
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
-++ '[' 5 -gt 5 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
 ++ '[' 6 -gt 5 ']'
 ++ return 0
 + echo 'PASS: landscape overlay shown'
@@ -741,9 +699,9 @@ PASS: landscape overlay shown
 + adb exec-out screencap -p
 + check 'rotation detected (portrait)' 'applog | grep -q '\''Screen size changed: 1080x2400'\'''
 + eval 'applog | grep -q '\''Screen size changed: 1080x2400'\'''
-++ grep -q 'Screen size changed: 1080x2400'
 ++ applog
 ++ adb logcat -d -s ScreenTranslate:D
+++ grep -q 'Screen size changed: 1080x2400'
 + echo 'PASS: rotation detected (portrait)'
 PASS: rotation detected (portrait)
 + check 'overlay removed on rotation' true
@@ -776,20 +734,6 @@ tapped ui 'bubble' at 985 913
 + eval 'wait_translation 6'
 ++ wait_translation 6
 +++ seq 1 75
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 6 -gt 6 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 6 -gt 6 ']'
-++ sleep 2
 ++ for i in $(seq 1 75)
 +++ shown_count
 +++ applog
@@ -849,8 +793,8 @@ tapped 'STOP SCREEN TRANSLATOR' at 540 1082
 + adb exec-out screencap -p
 + check 'service stopped' '! adb shell dumpsys activity services com.screentranslate.app | grep -q ServiceRecord'
 + eval '! adb shell dumpsys activity services com.screentranslate.app | grep -q ServiceRecord'
-++ adb shell dumpsys activity services com.screentranslate.app
 ++ grep -q ServiceRecord
+++ adb shell dumpsys activity services com.screentranslate.app
 + echo 'PASS: service stopped'
 PASS: service stopped
 + check 'app process alive (no crash)' 'adb shell pidof com.screentranslate.app >/dev/null'
@@ -866,7 +810,7 @@ PASS: app process alive (no crash)
 ++ grep -q com.screentranslate.app ci-output/emulator/crash.txt
 + echo 'PASS: no crash logged'
 PASS: no crash logged
-+ kill 3705
++ kill 3681
 + echo 'FAILURES: 0'
 FAILURES: 0
 + echo 0
