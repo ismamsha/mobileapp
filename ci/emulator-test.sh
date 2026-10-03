@@ -12,6 +12,7 @@ check() { if eval "$2"; then echo "PASS: $1"; else echo "FAIL: $1"; FAILS=$((FAI
 applog() { adb logcat -d -s ScreenTranslate:D; }
 
 tap_text() { # app/Chrome UI via uiautomator (last matching node)
+  dismiss_dialogs
   adb shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1
   adb pull /sdcard/ui.xml /tmp/ui.xml >/dev/null 2>&1
   xy=$(python3 - "$1" <<'PY'
@@ -36,6 +37,7 @@ PY
 }
 
 tap_ui() { # our overlay windows: positions logged by the debug build
+  dismiss_dialogs
   xy=$(applog | grep "UI_BOUNDS $1 " | tail -1 | awk '{print $(NF-1), $NF}')
   if [ -n "$xy" ]; then adb shell input tap $xy; echo "tapped ui '$1' at $xy"; return 0; fi
   echo "ui '$1' not found"; return 1
@@ -50,6 +52,23 @@ wait_translation() { # $1 = previous count; waits up to 150 s for a new overlay
   return 1
 }
 
+# Slow CI emulators show "isn't responding" dialogs that block every tap: suppress them.
+adb shell settings put global hide_error_dialogs 1
+adb shell settings put global anr_show_background 0
+adb shell 'while [ "$(getprop sys.boot_completed)" != "1" ]; do sleep 2; done'
+sleep 20
+dismiss_dialogs() {
+  adb shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1
+  adb pull /sdcard/ui.xml /tmp/ui.xml >/dev/null 2>&1
+  if grep -q "t responding" /tmp/ui.xml 2>/dev/null; then
+    xy=$(python3 -c "
+import re,xml.etree.ElementTree as ET
+for n in ET.parse('/tmp/ui.xml').getroot().iter('node'):
+    if n.get('text')=='Wait':
+        x1,y1,x2,y2=map(int,re.findall(r'\d+',n.get('bounds'))); print((x1+x2)//2,(y1+y2)//2); break")
+    [ -n "$xy" ] && adb shell input tap $xy && echo "dismissed ANR dialog"
+  fi
+}
 adb install -r -g app/build/outputs/apk/debug/app-debug.apk || exit 1
 adb shell appops set $A SYSTEM_ALERT_WINDOW allow
 adb shell appops set $A PROJECT_MEDIA allow
