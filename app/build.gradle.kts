@@ -33,6 +33,8 @@ android {
             if (project.hasProperty("withX86")) abiFilters += "x86_64"
         }
         vectorDrawables.useSupportLibrary = true
+        // CI emulator test only (-PtestLogs): logs counts and positions, never screen text.
+        buildConfigField("boolean", "TEST_LOGS", if (project.hasProperty("testLogs")) "true" else "false")
     }
 
     signingConfigs {
@@ -48,13 +50,15 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            // Not debuggable, so no debugger or run-as can read the app's memory or files.
+            isDebuggable = false
+            isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            if (hasReleaseKey) signingConfig = signingConfigs.getByName("release")
+            signingConfig = if (hasReleaseKey) signingConfigs.getByName("release") else signingConfigs.getByName("debug")
         }
     }
 

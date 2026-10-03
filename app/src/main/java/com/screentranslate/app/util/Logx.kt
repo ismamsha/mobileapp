@@ -9,13 +9,14 @@ import com.screentranslate.app.BuildConfig
  */
 object Logx {
     private const val TAG = "ScreenTranslate"
+    private val ENABLED = BuildConfig.DEBUG || BuildConfig.TEST_LOGS
 
     fun d(message: String) {
-        if (BuildConfig.DEBUG) Log.d(TAG, message)
+        if (ENABLED) Log.d(TAG, message)
     }
 
     fun w(message: String, error: Throwable? = null) {
         // Only the exception class is logged: messages could contain screen text.
-        if (BuildConfig.DEBUG) Log.w(TAG, message + (error?.let { " (${it.javaClass.simpleName})" } ?: ""))
+        if (ENABLED) Log.w(TAG, message + (error?.let { " (${it.javaClass.simpleName})" } ?: ""))
     }
 }
