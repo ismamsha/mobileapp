@@ -36,6 +36,10 @@ class TesseractOcrEngine(
 
     private fun installed(langs: String) = langs.split('+').filter { it.isNotEmpty() && dataManager.isInstalled(it) }.joinToString("+")
 
+    /** True when every language in [langs] is downloaded. */
+    fun hasData(langs: String): Boolean =
+        langs.split('+').filter { it.isNotEmpty() }.let { l -> l.isNotEmpty() && l.all { dataManager.isInstalled(it) } }
+
     override suspend fun recognizeLines(bitmap: Bitmap): List<OcrLine> = recognizeFullPage(bitmap, languages())
 
     /**

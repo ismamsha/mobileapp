@@ -35,7 +35,7 @@ class ScreenTranslateApplication : Application() {
 }
 
 /** Simple manual dependency container (no DI framework needed for an app this size). */
-class AppContainer(app: Application) {
+class AppContainer(private val app: Application) {
     val appScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     val settings = SettingsRepository(app, appScope)
     val tessData = TessDataManager(app)
@@ -47,7 +47,10 @@ class AppContainer(app: Application) {
     val mlKitOcr by lazy { MlKitOcrEngine() }
     val tesseractOcr by lazy { TesseractOcrEngine(tessData) { settings.current.tesseractLanguages() } }
     val ocrEngine by lazy {
-        HybridOcrEngine(mlKitOcr, tesseractOcr) { settings.current.tesseractLanguages() }
+        HybridOcrEngine(
+            mlKitOcr, tesseractOcr, { settings.current.tesseractLanguages() },
+            app.getSharedPreferences("ocr", android.content.Context.MODE_PRIVATE),
+        )
     }
 
     fun trimMemory() {

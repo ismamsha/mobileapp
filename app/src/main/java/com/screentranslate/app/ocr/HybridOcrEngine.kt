@@ -1,5 +1,6 @@
 package com.screentranslate.app.ocr
 
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import com.screentranslate.app.model.OcrBlock
 import com.screentranslate.app.util.Logx
@@ -16,15 +17,32 @@ class HybridOcrEngine(
     private val mlKit: MlKitOcrEngine,
     private val tesseract: TesseractOcrEngine,
     private val tesseractLanguages: () -> String,
+    private val prefs: SharedPreferences,
 ) : OcrEngine {
+
+    /** Rolling average of ML Kit's time on this phone; on slow devices Tesseract alone is faster. */
+    private var mlKitAvgMs = prefs.getLong(KEY_ML_AVG, 0L)
+    private var taps = 0
 
     override suspend fun recognize(bitmap: Bitmap): List<OcrBlock> {
         val start = System.currentTimeMillis()
+        val langs = tesseractLanguages()
+        taps++
+        // Re-measure ML Kit now and then in case the phone was just busy.
+        if (langs.isNotEmpty() && mlKitAvgMs > SLOW_ML_KIT_MS && taps % 15 != 0 && tesseract.hasData(langs)) {
+            val tessLines = runCatching { tesseract.recognizeFullPage(bitmap, langs) }
+                .onFailure { Logx.w("Tesseract OCR failed", it) }.getOrDefault(emptyList())
+            val blocks = TextBlockGrouper.group(OcrMerger.merge(emptyList(), tessLines)).map { it.toOcrBlock() }
+            Logx.d("OCR (Tesseract only, ML Kit avg ${mlKitAvgMs}ms): tess=${tessLines.size} blocks=${blocks.size} in ${System.currentTimeMillis() - start}ms")
+            return blocks
+        }
+
         val mlLines = runCatching { mlKit.recognizeLines(bitmap) }
             .onFailure { Logx.w("ML Kit OCR failed", it) }.getOrDefault(emptyList())
         val mlTime = System.currentTimeMillis() - start
+        mlKitAvgMs = if (mlKitAvgMs == 0L) mlTime else (mlKitAvgMs * 2 + mlTime) / 3
+        prefs.edit().putLong(KEY_ML_AVG, mlKitAvgMs).apply()
 
-        val langs = tesseractLanguages()
         var tessLines = emptyList<OcrLine>()
         if (langs.isNotEmpty()) {
             val t = System.currentTimeMillis()
@@ -45,6 +63,9 @@ class HybridOcrEngine(
     }
 
     companion object {
+        private const val KEY_ML_AVG = "mlkit_avg_ms"
+        private const val SLOW_ML_KIT_MS = 2500L
+
         /** ML Kit blocks that probably aren't really Latin text, padded a little. */
         fun uncertainRegions(lines: List<OcrLine>, width: Int, height: Int): List<Box> =
             lines.groupBy { it.group }.flatMap { (group, ls) ->
