@@ -1,2 +1,0 @@
-  * ServiceRecord{5c2ae32 u0 com.screentranslate.app/.service.ScreenCaptureService}
-    isForeground=true foregroundId=42 types=00000020 foregroundNoti=Notification(channel=screen_translator shortcut=null contentView=null vibrate=null sound=null defaults=0x0 flags=0x6a color=0x00000000 category=service actions=2 vis=PRIVATE)

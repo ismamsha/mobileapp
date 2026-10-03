@@ -1,8 +1,0 @@
---------- beginning of main
-10-03 15:26:36.089  3540  3650 D ScreenTranslate: OCR: ml=10 tess=14 blocks=11 in 6016ms
-10-03 15:26:36.594  3540  3540 D ScreenTranslate: Shown 11 translated blocks
-10-03 15:28:34.474  3540  3650 D ScreenTranslate: OCR: ml=9 tess=13 blocks=10 in 5153ms
-10-03 15:28:34.554  3540  3540 D ScreenTranslate: Shown 10 translated blocks
-10-03 15:30:24.242  3540  3650 D ScreenTranslate: OCR: ml=9 tess=13 blocks=10 in 5056ms
-10-03 15:30:24.323  3540  3540 D ScreenTranslate: Shown 10 translated blocks
-10-03 15:32:40.690  3540  3540 D ScreenTranslate: Screen size changed: 2400x1080

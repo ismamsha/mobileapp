@@ -72,7 +72,7 @@ distributionUrl=https\://services.gradle.org/distributions/gradle-8.14.3-bin.zip
 
    https://developer.android.com/ndk/guides/abis
 
-/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/service/ScreenCaptureService.kt:454: Warning: Unnecessary; SDK_INT is never < 26 [ObsoleteSdkInt]
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/service/ScreenCaptureService.kt:479: Warning: Unnecessary; SDK_INT is never < 26 [ObsoleteSdkInt]
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /home/runner/work/mobileapp/mobileapp/app/src/main/res/mipmap-anydpi-v26: Warning: This folder configuration (v26) is unnecessary; minSdkVersion is 26. Merge all the resources in this folder into mipmap-anydpi. [ObsoleteSdkInt]
@@ -147,7 +147,7 @@ distributionUrl=https\://services.gradle.org/distributions/gradle-8.14.3-bin.zip
 /home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/util/DeviceUtils.kt:30: Warning: Use the KTX extension function String.toUri instead? [UseKtx]
         Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:${context.packageName}"))
                                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/overlay/FloatingBubbleController.kt:186: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/overlay/FloatingBubbleController.kt:196: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
             prefs.edit().putInt("x_$orientationKey", targetX).putInt("y_$orientationKey", lp.y).apply()
             ~~~~~~~~~~~~
 /home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/ui/MainActivity.kt:124: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
