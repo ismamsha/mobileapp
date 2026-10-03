@@ -85,9 +85,18 @@ object TextBlockGrouper {
         if (!compatibleScripts(last.script, line.script)) return false
         val h1 = last.box.height.toFloat()
         val h2 = line.box.height.toFloat()
-        // Glyph boxes vary with ascenders/descenders (Cyrillic lower case is short), so allow some spread.
-        if (max(h1, h2) > min(h1, h2) * 1.5f) return false
-        val avgH = (h1 + h2) / 2f
+        // Glyph boxes vary with ascenders/descenders: a Cyrillic line with no capitals can be half as
+        // tall as one with them. So compare against the tallest line so far (the font's full height).
+        // Two lines alone must look alike (keeps a big title apart from the body); once a paragraph
+        // is established, a line may be as short as a lower-case-only line of the same font.
+        val groupMaxH = group.maxOf { it.box.height }.toFloat()
+        val fullH = max(groupMaxH, h2)
+        if (group.size == 1) {
+            if (max(h1, h2) > min(h1, h2) * 1.5f) return false
+        } else if (h2 > groupMaxH * 1.5f || h2 * 1.8f < fullH) {
+            return false
+        }
+        val avgH = fullH
         val gap = line.box.top - last.box.bottom
         // Spacing the paragraph has used so far: a wrapped line repeats it, a new item does not.
         val typicalGap = group.zipWithNext { a, b -> b.box.top - a.box.bottom }.sorted().let { g ->
@@ -103,7 +112,7 @@ object TextBlockGrouper {
         // a separate item usually sits further away.
         val end = last.text.trimEnd().lastOrNull()
         if (end != null && end in ".!?:;…") {
-            val separate = if (typicalGap != null) gap > typicalGap * 1.3f + 2f else gap > avgH * 0.6f
+            val separate = if (typicalGap != null) gap > typicalGap * 1.3f + avgH * 0.15f else gap > avgH * 0.6f
             if (separate) return false
         }
         val groupBox = group.map { it.box }.reduce { a, b -> a.union(b) }

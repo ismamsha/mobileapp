@@ -91,4 +91,29 @@ class TextBlockGrouperTest {
         )
         assertEquals(2, TextBlockGrouper.group(lines).size)
     }
+
+    /** Lower-case-only Cyrillic lines have short boxes; they must not break the paragraph. */
+    @Test fun shortLowercaseLinesStayInParagraph() {
+        val c = Script.CYRILLIC
+        // (text, glyph top offset within the 34 px line, glyph height)
+        val rows = listOf(
+            Triple("каждый языковой нюанс.", 0, 34), Triple("До этого я пробовала", 0, 34),
+            Triple("заниматься с другими", 6, 28), Triple("учителями и могу с", 10, 20),
+            Triple("уверенностью сказать: разница", 10, 24), Triple("огромнейшая. Если вы еще", 0, 34),
+        )
+        val lines = rows.mapIndexed { i, (t, off, h) ->
+            val top = 100 + i * 48 + off
+            line(t, 135, top, 135 + t.length * 19, top + h, c)
+        }
+        assertEquals(1, TextBlockGrouper.group(lines).size)
+    }
+
+    @Test fun bigTitleStaysApartFromBody() {
+        val lines = listOf(
+            line("Weather report for today", 40, 100, 700, 160),
+            line("The weather will be sunny with light wind and", 40, 176, 1000, 210),
+            line("temperatures rising to twenty degrees.", 40, 224, 900, 258),
+        )
+        assertEquals(2, TextBlockGrouper.group(lines).size)
+    }
 }

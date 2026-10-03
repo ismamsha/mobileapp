@@ -95,7 +95,9 @@ class TranslationOverlayController(
                 tb.style.textColor, screenWidth, screenHeight, lineHeights[i],
             )
             val textLeft = if (rtl) rect.right - padH - layout.width else rect.left + padH
-            val textTop = rect.top + (rect.height() - layout.height) / 2f
+            // Top-aligned: translations are often shorter than the original paragraph.
+            val textTop = if (tb.block.lineCount > 1) rect.top + 1.5f * density + 2f * density
+            else rect.top + (rect.height() - layout.height) / 2f
             RenderBlock(RectF(rect), layout, textLeft, textTop, bg, card)
         }
     }
