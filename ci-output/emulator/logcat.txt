@@ -1,0 +1,4 @@
+--------- beginning of main
+10-03 15:19:17.618  3290  3506 D ScreenTranslate: OCR: ml=7 tess=0 blocks=7 in 5100ms
+10-03 15:19:26.405  3290  3290 D ScreenTranslate: Shown 7 translated blocks
+10-03 15:19:31.993  3290  3290 D ScreenTranslate: Screen size changed: 2400x1080
