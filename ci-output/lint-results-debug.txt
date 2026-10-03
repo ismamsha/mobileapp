@@ -165,16 +165,19 @@ distributionUrl=https\://services.gradle.org/distributions/gradle-8.14.3-bin.zip
 /home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/ui/MainActivity.kt:124: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
             prefs.edit().putBoolean("asked_notifications", true).apply()
             ~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/ocr/MlKitOcrEngine.kt:20: Warning: Use the KTX extension function Bitmap.scale instead? [UseKtx]
+        else Bitmap.createScaledBitmap(bitmap, (bitmap.width * scale).toInt(), (bitmap.height * scale).toInt(), true)
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/capture/ScreenCaptureController.kt:121: Warning: Use the KTX function createBitmap instead? [UseKtx]
         val padded = Bitmap.createBitmap(image.width + rowPadding / pixelStride, image.height, Bitmap.Config.ARGB_8888)
                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/service/ScreenCaptureService.kt:234: Warning: Use the KTX function createBitmap instead? [UseKtx]
                     val tiny = android.graphics.Bitmap.createBitmap(64, 32, android.graphics.Bitmap.Config.ARGB_8888)
                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/ocr/TesseractOcrEngine.kt:155: Warning: Use the KTX function createBitmap instead? [UseKtx]
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/ocr/TesseractOcrEngine.kt:156: Warning: Use the KTX function createBitmap instead? [UseKtx]
         val out = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/ocr/TesseractOcrEngine.kt:182: Warning: Use the KTX extension function Bitmap.get instead? [UseKtx]
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/ocr/TesseractOcrEngine.kt:183: Warning: Use the KTX extension function Bitmap.get instead? [UseKtx]
                 val c = bmp.getPixel(x, y)
                         ~~~~~~~~~~~~~~~~~~
 /home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/overlay/TranslationOverlayView.kt:41: Warning: Use the KTX extension function Canvas.withTranslation instead? [UseKtx]
@@ -237,4 +240,4 @@ distributionUrl=https\://services.gradle.org/distributions/gradle-8.14.3-bin.zip
    </lint>
    ```
 
-0 errors, 28 warnings
+0 errors, 29 warnings

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.screentranslate.app.ColorAnalyzerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-03T16:59:03.350Z" hostname="runnervm8df0l" time="0.032">
+<testsuite name="com.screentranslate.app.ColorAnalyzerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-03T17:20:59.995Z" hostname="runnervm8df0l" time="0.029">
   <properties/>
-  <testcase name="darkBackgroundGetsWhiteText" classname="com.screentranslate.app.ColorAnalyzerTest" time="0.031"/>
+  <testcase name="darkBackgroundGetsWhiteText" classname="com.screentranslate.app.ColorAnalyzerTest" time="0.028"/>
   <testcase name="busyBackgroundFallsBackToCard" classname="com.screentranslate.app.ColorAnalyzerTest" time="0.0"/>
-  <testcase name="whiteBackgroundGetsBlackText" classname="com.screentranslate.app.ColorAnalyzerTest" time="0.0"/>
+  <testcase name="whiteBackgroundGetsBlackText" classname="com.screentranslate.app.ColorAnalyzerTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

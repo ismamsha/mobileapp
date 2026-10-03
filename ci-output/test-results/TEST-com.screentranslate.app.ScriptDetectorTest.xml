@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.screentranslate.app.ScriptDetectorTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-03T16:59:03.491Z" hostname="runnervm8df0l" time="0.005">
+<testsuite name="com.screentranslate.app.ScriptDetectorTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-03T17:21:00.144Z" hostname="runnervm8df0l" time="0.008">
   <properties/>
-  <testcase name="detectsArabic" classname="com.screentranslate.app.ScriptDetectorTest" time="0.001"/>
+  <testcase name="detectsArabic" classname="com.screentranslate.app.ScriptDetectorTest" time="0.006"/>
   <testcase name="mixedUsesMajority" classname="com.screentranslate.app.ScriptDetectorTest" time="0.001"/>
-  <testcase name="defaultLanguages" classname="com.screentranslate.app.ScriptDetectorTest" time="0.002"/>
+  <testcase name="defaultLanguages" classname="com.screentranslate.app.ScriptDetectorTest" time="0.0"/>
   <testcase name="detectsLatin" classname="com.screentranslate.app.ScriptDetectorTest" time="0.0"/>
   <testcase name="numbersHaveNoScript" classname="com.screentranslate.app.ScriptDetectorTest" time="0.0"/>
-  <testcase name="detectsCyrillic" classname="com.screentranslate.app.ScriptDetectorTest" time="0.0"/>
+  <testcase name="detectsCyrillic" classname="com.screentranslate.app.ScriptDetectorTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

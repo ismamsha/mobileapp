@@ -10,7 +10,7 @@ Success
 + adb shell appops set com.screentranslate.app PROJECT_MEDIA allow
 + adb shell 'echo "chrome --disable-fre --no-default-browser-check --no-first-run" > /data/local/tmp/chrome-command-line'
 + adb shell am set-debug-app --persistent com.android.chrome
-+ SERVER=3485
++ SERVER=3705
 + nohup python3 -m http.server 8000 --directory ci/pages
 + adb reverse tcp:8000 tcp:8000
 8000
@@ -75,9 +75,9 @@ text 'Start now' not found
 PASS: foreground service running
 + check 'bubble shown' 'applog | grep -q '\''UI_BOUNDS bubble'\'''
 + eval 'applog | grep -q '\''UI_BOUNDS bubble'\'''
+++ grep -q 'UI_BOUNDS bubble'
 ++ applog
 ++ adb logcat -d -s ScreenTranslate:D
-++ grep -q 'UI_BOUNDS bubble'
 + echo 'PASS: bubble shown'
 PASS: bubble shown
 + open_page ru.html
@@ -125,8 +125,8 @@ text 'Got it' not found
 + grep -q 't responding' /tmp/ui.xml
 ++ applog
 ++ grep 'UI_BOUNDS bubble '
-++ tail -1
 ++ adb logcat -d -s ScreenTranslate:D
+++ tail -1
 ++ awk '{print $(NF-1), $NF}'
 + xy='985 913'
 + '[' -n '985 913' ']'
@@ -140,9 +140,51 @@ tapped ui 'bubble' at 985 913
 +++ seq 1 75
 ++ for i in $(seq 1 75)
 +++ shown_count
++++ grep -c 'Shown .* translated blocks'
++++ applog
++++ adb logcat -d -s ScreenTranslate:D
+++ '[' 0 -gt 0 ']'
+++ sleep 2
+++ for i in $(seq 1 75)
++++ shown_count
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
 +++ grep -c 'Shown .* translated blocks'
+++ '[' 0 -gt 0 ']'
+++ sleep 2
+++ for i in $(seq 1 75)
++++ shown_count
++++ applog
++++ grep -c 'Shown .* translated blocks'
++++ adb logcat -d -s ScreenTranslate:D
+++ '[' 0 -gt 0 ']'
+++ sleep 2
+++ for i in $(seq 1 75)
++++ shown_count
++++ grep -c 'Shown .* translated blocks'
++++ applog
++++ adb logcat -d -s ScreenTranslate:D
+++ '[' 0 -gt 0 ']'
+++ sleep 2
+++ for i in $(seq 1 75)
++++ shown_count
++++ grep -c 'Shown .* translated blocks'
++++ applog
++++ adb logcat -d -s ScreenTranslate:D
+++ '[' 0 -gt 0 ']'
+++ sleep 2
+++ for i in $(seq 1 75)
++++ shown_count
++++ applog
++++ grep -c 'Shown .* translated blocks'
++++ adb logcat -d -s ScreenTranslate:D
+++ '[' 0 -gt 0 ']'
+++ sleep 2
+++ for i in $(seq 1 75)
++++ shown_count
++++ grep -c 'Shown .* translated blocks'
++++ applog
++++ adb logcat -d -s ScreenTranslate:D
 ++ '[' 0 -gt 0 ']'
 ++ sleep 2
 ++ for i in $(seq 1 75)
@@ -171,48 +213,6 @@ tapped ui 'bubble' at 985 913
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
 +++ grep -c 'Shown .* translated blocks'
-++ '[' 0 -gt 0 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 0 -gt 0 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 0 -gt 0 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 0 -gt 0 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 0 -gt 0 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 0 -gt 0 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ grep -c 'Shown .* translated blocks'
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
 ++ '[' 1 -gt 0 ']'
 ++ return 0
 + echo 'PASS: ru->ar overlay shown'
@@ -228,8 +228,8 @@ PASS: ru->ar overlay shown
 ++ applog
 ++ adb logcat -d -s ScreenTranslate:D
 ++ grep 'UI_BOUNDS Show original or translation '
-++ tail -1
 ++ awk '{print $(NF-1), $NF}'
+++ tail -1
 + xy='751 2143'
 + '[' -n '751 2143' ']'
 + adb shell input tap 751 2143
@@ -292,15 +292,15 @@ tapped ui 'Translate again' at 417 2143
 ++ sleep 2
 ++ for i in $(seq 1 75)
 +++ shown_count
++++ grep -c 'Shown .* translated blocks'
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
 ++ '[' 1 -gt 1 ']'
 ++ sleep 2
 ++ for i in $(seq 1 75)
 +++ shown_count
-+++ applog
 +++ grep -c 'Shown .* translated blocks'
++++ applog
 +++ adb logcat -d -s ScreenTranslate:D
 ++ '[' 1 -gt 1 ']'
 ++ sleep 2
@@ -406,9 +406,9 @@ tapped ui 'bubble' at 985 913
 + sleep 2
 + for i in $(seq 1 75)
 ++ shown_count
+++ grep -c 'Shown .* translated blocks'
 ++ applog
 ++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
 + '[' 2 -gt 2 ']'
 + sleep 2
 + for i in $(seq 1 75)
@@ -442,8 +442,8 @@ tapped ui 'Change target language' at 566 2143
 + adb exec-out screencap -p
 ++ shown_count
 ++ applog
-++ adb logcat -d -s ScreenTranslate:D
 ++ grep -c 'Shown .* translated blocks'
+++ adb logcat -d -s ScreenTranslate:D
 + n=3
 + tap_ui English
 + dismiss_dialogs
@@ -467,23 +467,16 @@ tapped ui 'English' at 788 2143
 +++ seq 1 75
 ++ for i in $(seq 1 75)
 +++ shown_count
++++ grep -c 'Shown .* translated blocks'
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
 ++ '[' 3 -gt 3 ']'
 ++ sleep 2
 ++ for i in $(seq 1 75)
 +++ shown_count
++++ grep -c 'Shown .* translated blocks'
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 3 -gt 3 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
 ++ '[' 3 -gt 3 ']'
 ++ sleep 2
 ++ for i in $(seq 1 75)
@@ -498,6 +491,13 @@ tapped ui 'English' at 788 2143
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
 +++ grep -c 'Shown .* translated blocks'
+++ '[' 3 -gt 3 ']'
+++ sleep 2
+++ for i in $(seq 1 75)
++++ shown_count
++++ grep -c 'Shown .* translated blocks'
++++ applog
++++ adb logcat -d -s ScreenTranslate:D
 ++ '[' 4 -gt 3 ']'
 ++ return 0
 + echo 'PASS: ar->en overlay shown'
@@ -522,6 +522,42 @@ PASS: ar->en overlay shown
 tapped ui 'Close translation' at 292 2143
 + return 0
 + sleep 2
++ adb shell am start -n com.screentranslate.app/.ui.MainActivity
+Starting: Intent { cmp=com.screentranslate.app/.ui.MainActivity }
+Warning: Activity not started, its current task has been brought to the front
++ sleep 4
++ tap_text 'English  ·  English'
++ dismiss_dialogs
++ adb shell uiautomator dump /sdcard/ui.xml
++ adb pull /sdcard/ui.xml /tmp/ui.xml
++ grep -q 't responding' /tmp/ui.xml
++ adb shell uiautomator dump /sdcard/ui.xml
++ adb pull /sdcard/ui.xml /tmp/ui.xml
+++ python3 - 'English  ·  English'
++ xy='508 512'
++ '[' -n '508 512' ']'
++ adb shell input tap 508 512
++ echo 'tapped '\''English  ·  English'\'' at 508 512'
+tapped 'English  ·  English' at 508 512
++ return 0
++ sleep 2
++ tap_text 'Russian  ·  Русский'
++ dismiss_dialogs
++ adb shell uiautomator dump /sdcard/ui.xml
++ adb pull /sdcard/ui.xml /tmp/ui.xml
++ grep -q 't responding' /tmp/ui.xml
++ adb shell uiautomator dump /sdcard/ui.xml
++ adb pull /sdcard/ui.xml /tmp/ui.xml
+++ python3 - 'Russian  ·  Русский'
++ xy='246 796'
++ '[' -n '246 796' ']'
++ adb shell input tap 246 796
++ echo 'tapped '\''Russian  ·  Русский'\'' at 246 796'
+tapped 'Russian  ·  Русский' at 246 796
++ return 0
++ sleep 2
++ shot 29-target-russian
++ adb exec-out screencap -p
 + open_page en.html
 + adb shell am start -a android.intent.action.VIEW -d http://localhost:8000/en.html com.android.chrome
 + sleep 7
@@ -556,8 +592,8 @@ text 'Got it' not found
 + adb exec-out screencap -p
 ++ shown_count
 ++ applog
-++ adb logcat -d -s ScreenTranslate:D
 ++ grep -c 'Shown .* translated blocks'
+++ adb logcat -d -s ScreenTranslate:D
 + n=4
 + tap_ui bubble
 + dismiss_dialogs
@@ -574,573 +610,6 @@ text 'Got it' not found
 + adb shell input tap 985 913
 + echo 'tapped ui '\''bubble'\'' at 985 913'
 tapped ui 'bubble' at 985 913
-+ return 0
-+ wait_translation 4
-++ seq 1 75
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ grep -c 'Shown .* translated blocks'
-++ adb logcat -d -s ScreenTranslate:D
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ grep -c 'Shown .* translated blocks'
-++ adb logcat -d -s ScreenTranslate:D
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ grep -c 'Shown .* translated blocks'
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ grep -c 'Shown .* translated blocks'
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ grep -c 'Shown .* translated blocks'
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ grep -c 'Shown .* translated blocks'
-++ adb logcat -d -s ScreenTranslate:D
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ grep -c 'Shown .* translated blocks'
-++ adb logcat -d -s ScreenTranslate:D
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ grep -c 'Shown .* translated blocks'
-++ adb logcat -d -s ScreenTranslate:D
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ grep -c 'Shown .* translated blocks'
-++ adb logcat -d -s ScreenTranslate:D
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ grep -c 'Shown .* translated blocks'
-++ adb logcat -d -s ScreenTranslate:D
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ grep -c 'Shown .* translated blocks'
-++ adb logcat -d -s ScreenTranslate:D
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ grep -c 'Shown .* translated blocks'
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ grep -c 'Shown .* translated blocks'
-++ adb logcat -d -s ScreenTranslate:D
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ grep -c 'Shown .* translated blocks'
-++ adb logcat -d -s ScreenTranslate:D
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ grep -c 'Shown .* translated blocks'
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ grep -c 'Shown .* translated blocks'
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ grep -c 'Shown .* translated blocks'
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ for i in $(seq 1 75)
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ '[' 4 -gt 4 ']'
-+ sleep 2
-+ return 1
-+ sleep 1
-+ tap_ui 'Change target language'
-+ dismiss_dialogs
-+ adb shell uiautomator dump /sdcard/ui.xml
-+ adb pull /sdcard/ui.xml /tmp/ui.xml
-+ grep -q 't responding' /tmp/ui.xml
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep 'UI_BOUNDS Change target language '
-++ tail -1
-++ awk '{print $(NF-1), $NF}'
-+ xy='565 2143'
-+ '[' -n '565 2143' ']'
-+ adb shell input tap 565 2143
-+ echo 'tapped ui '\''Change target language'\'' at 565 2143'
-tapped ui 'Change target language' at 565 2143
-+ return 0
-+ sleep 2
-++ shown_count
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ grep -c 'Shown .* translated blocks'
-+ n=4
-+ tap_ui Russian
-+ dismiss_dialogs
-+ adb shell uiautomator dump /sdcard/ui.xml
-+ adb pull /sdcard/ui.xml /tmp/ui.xml
-+ grep -q 't responding' /tmp/ui.xml
-++ applog
-++ adb logcat -d -s ScreenTranslate:D
-++ tail -1
-++ grep 'UI_BOUNDS Russian '
-++ awk '{print $(NF-1), $NF}'
-+ xy='586 2143'
-+ '[' -n '586 2143' ']'
-+ adb shell input tap 586 2143
-+ echo 'tapped ui '\''Russian'\'' at 586 2143'
-tapped ui 'Russian' at 586 2143
 + return 0
 + check 'en->ru overlay shown' 'wait_translation 4'
 + eval 'wait_translation 4'
@@ -1169,512 +638,13 @@ tapped ui 'Russian' at 586 2143
 ++ sleep 2
 ++ for i in $(seq 1 75)
 +++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ grep -c 'Shown .* translated blocks'
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ grep -c 'Shown .* translated blocks'
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ grep -c 'Shown .* translated blocks'
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ grep -c 'Shown .* translated blocks'
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
 +++ grep -c 'Shown .* translated blocks'
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ return 1
-+ echo 'FAIL: en->ru overlay shown'
-FAIL: en->ru overlay shown
-+ FAILS=1
+++ '[' 5 -gt 4 ']'
+++ return 0
++ echo 'PASS: en->ru overlay shown'
+PASS: en->ru overlay shown
 + sleep 2
 + shot 31-en-to-ru
 + adb exec-out screencap -p
@@ -1685,9 +655,9 @@ FAIL: en->ru overlay shown
 + grep -q 't responding' /tmp/ui.xml
 ++ applog
 ++ adb logcat -d -s ScreenTranslate:D
+++ awk '{print $(NF-1), $NF}'
 ++ grep 'UI_BOUNDS Close translation '
 ++ tail -1
-++ awk '{print $(NF-1), $NF}'
 + xy='292 2143'
 + '[' -n '292 2143' ']'
 + adb shell input tap 292 2143
@@ -1703,15 +673,15 @@ tapped ui 'Close translation' at 292 2143
 + check 'rotation detected (landscape)' 'applog | grep -q '\''Screen size changed: 2400x1080'\'''
 + eval 'applog | grep -q '\''Screen size changed: 2400x1080'\'''
 ++ applog
-++ adb logcat -d -s ScreenTranslate:D
 ++ grep -q 'Screen size changed: 2400x1080'
+++ adb logcat -d -s ScreenTranslate:D
 + echo 'PASS: rotation detected (landscape)'
 PASS: rotation detected (landscape)
 ++ shown_count
 ++ applog
 ++ adb logcat -d -s ScreenTranslate:D
 ++ grep -c 'Shown .* translated blocks'
-+ n=4
++ n=5
 + tap_ui bubble
 + dismiss_dialogs
 + adb shell uiautomator dump /sdcard/ui.xml
@@ -1728,539 +698,40 @@ PASS: rotation detected (landscape)
 + echo 'tapped ui '\''bubble'\'' at 2305 451'
 tapped ui 'bubble' at 2305 451
 + return 0
-+ check 'landscape overlay shown' 'wait_translation 4'
-+ eval 'wait_translation 4'
-++ wait_translation 4
++ check 'landscape overlay shown' 'wait_translation 5'
++ eval 'wait_translation 5'
+++ wait_translation 5
 +++ seq 1 75
 ++ for i in $(seq 1 75)
 +++ shown_count
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
 +++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
+++ '[' 5 -gt 5 ']'
 ++ sleep 2
 ++ for i in $(seq 1 75)
 +++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ grep -c 'Shown .* translated blocks'
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
 +++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
+++ '[' 5 -gt 5 ']'
 ++ sleep 2
 ++ for i in $(seq 1 75)
 +++ shown_count
-+++ applog
 +++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
+++ '[' 5 -gt 5 ']'
 ++ sleep 2
 ++ for i in $(seq 1 75)
 +++ shown_count
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
 +++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ return 1
-+ echo 'FAIL: landscape overlay shown'
-FAIL: landscape overlay shown
-+ FAILS=2
+++ '[' 6 -gt 5 ']'
+++ return 0
++ echo 'PASS: landscape overlay shown'
+PASS: landscape overlay shown
 + sleep 2
 + shot 41-landscape-translated
 + adb exec-out screencap -p
@@ -2270,9 +741,9 @@ FAIL: landscape overlay shown
 + adb exec-out screencap -p
 + check 'rotation detected (portrait)' 'applog | grep -q '\''Screen size changed: 1080x2400'\'''
 + eval 'applog | grep -q '\''Screen size changed: 1080x2400'\'''
+++ grep -q 'Screen size changed: 1080x2400'
 ++ applog
 ++ adb logcat -d -s ScreenTranslate:D
-++ grep -q 'Screen size changed: 1080x2400'
 + echo 'PASS: rotation detected (portrait)'
 PASS: rotation detected (portrait)
 + check 'overlay removed on rotation' true
@@ -2284,7 +755,7 @@ PASS: overlay removed on rotation
 ++ applog
 ++ adb logcat -d -s ScreenTranslate:D
 ++ grep -c 'Shown .* translated blocks'
-+ n=4
++ n=6
 + tap_ui bubble
 + dismiss_dialogs
 + adb shell uiautomator dump /sdcard/ui.xml
@@ -2301,539 +772,40 @@ PASS: overlay removed on rotation
 + echo 'tapped ui '\''bubble'\'' at 985 913'
 tapped ui 'bubble' at 985 913
 + return 0
-+ check 'portrait overlay after rotation' 'wait_translation 4'
-+ eval 'wait_translation 4'
-++ wait_translation 4
++ check 'portrait overlay after rotation' 'wait_translation 6'
++ eval 'wait_translation 6'
+++ wait_translation 6
 +++ seq 1 75
 ++ for i in $(seq 1 75)
 +++ shown_count
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
 +++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
+++ '[' 6 -gt 6 ']'
 ++ sleep 2
 ++ for i in $(seq 1 75)
 +++ shown_count
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
 +++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
+++ '[' 6 -gt 6 ']'
 ++ sleep 2
 ++ for i in $(seq 1 75)
 +++ shown_count
 +++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ grep -c 'Shown .* translated blocks'
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ grep -c 'Shown .* translated blocks'
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ grep -c 'Shown .* translated blocks'
-+++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ grep -c 'Shown .* translated blocks'
-+++ applog
 +++ adb logcat -d -s ScreenTranslate:D
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
 +++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
+++ '[' 6 -gt 6 ']'
 ++ sleep 2
 ++ for i in $(seq 1 75)
 +++ shown_count
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
 +++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ for i in $(seq 1 75)
-+++ shown_count
-+++ applog
-+++ adb logcat -d -s ScreenTranslate:D
-+++ grep -c 'Shown .* translated blocks'
-++ '[' 4 -gt 4 ']'
-++ sleep 2
-++ return 1
-+ echo 'FAIL: portrait overlay after rotation'
-FAIL: portrait overlay after rotation
-+ FAILS=3
+++ '[' 7 -gt 6 ']'
+++ return 0
++ echo 'PASS: portrait overlay after rotation'
+PASS: portrait overlay after rotation
 + sleep 2
 + shot 43-portrait-translated
 + adb exec-out screencap -p
@@ -2894,8 +866,8 @@ PASS: app process alive (no crash)
 ++ grep -q com.screentranslate.app ci-output/emulator/crash.txt
 + echo 'PASS: no crash logged'
 PASS: no crash logged
-+ kill 3485
-+ echo 'FAILURES: 3'
-FAILURES: 3
-+ echo 3
++ kill 3705
++ echo 'FAILURES: 0'
+FAILURES: 0
++ echo 0
 + exit 0

@@ -45,8 +45,8 @@ Daemon will be stopped at the end of the build
 > Task :app:dexBuilderDebug
 > Task :app:mergeDebugGlobalSynthetics
 > Task :app:processDebugJavaRes
-> Task :app:mergeDebugJniLibFolders
 > Task :app:mergeLibDexDebug
+> Task :app:mergeDebugJniLibFolders
 > Task :app:mergeProjectDexDebug
 > Task :app:mergeDebugNativeLibs
 > Task :app:mergeDebugJavaResource
@@ -57,9 +57,9 @@ Daemon will be stopped at the end of the build
 > Task :app:javaPreCompileDebugUnitTest FROM-CACHE
 > Task :app:preDebugAndroidTestBuild SKIPPED
 > Task :app:generateDebugAndroidTestResValues FROM-CACHE
-> Task :app:bundleDebugClassesToRuntimeJar
 > Task :app:extractProguardFiles
 > Task :app:bundleDebugClassesToCompileJar
+> Task :app:bundleDebugClassesToRuntimeJar
 
 > Task :app:stripDebugDebugSymbols
 Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so, libdatastore_shared_counter.so, libjpeg.so, liblanguage_id_l2c_jni.so, libleptonica.so, libmlkit_google_ocr_pipeline.so, libpngx.so, libtesseract.so, libtranslate_jni.so. Run with --info option to learn more.
@@ -91,5 +91,5 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
 
-BUILD SUCCESSFUL in 3m 1s
+BUILD SUCCESSFUL in 3m 35s
 53 actionable tasks: 51 executed, 2 from cache
