@@ -1,0 +1,107 @@
+package com.screentranslate.app.ocr
+
+import com.screentranslate.app.util.Script
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
+
+/**
+ * Groups OCR lines into blocks so that wrapped sentences/paragraphs are translated
+ * as a whole, while separate UI labels (menu rows, buttons) stay separate.
+ */
+object TextBlockGrouper {
+
+    fun group(lines: List<OcrLine>, maxLinesPerBlock: Int = 10): List<LineGroup> {
+        val rows = mergeSameRow(lines.filter { it.text.isNotBlank() && it.box.width > 0 && it.box.height > 0 })
+        val sorted = rows.sortedWith(compareBy<OcrLine> { it.box.top }.thenBy { it.box.left })
+        val groups = mutableListOf<MutableList<OcrLine>>()
+        for (line in sorted) {
+            var best: MutableList<OcrLine>? = null
+            var bestGap = Int.MAX_VALUE
+            for (g in groups) {
+                if (g.size >= maxLinesPerBlock) continue
+                val last = g.last()
+                if (!continuesParagraph(last, line, g)) continue
+                val gap = line.box.top - last.box.bottom
+                if (gap < bestGap) {
+                    bestGap = gap
+                    best = g
+                }
+            }
+            if (best != null) best.add(line) else groups.add(mutableListOf(line))
+        }
+        return groups.map { LineGroup(it) }
+    }
+
+    /** Joins fragments that sit on the same baseline next to each other (engines sometimes split lines). */
+    internal fun mergeSameRow(lines: List<OcrLine>): List<OcrLine> {
+        val result = mutableListOf<OcrLine>()
+        val pending = lines.sortedWith(compareBy<OcrLine> { it.box.top }.thenBy { it.box.left }).toMutableList()
+        while (pending.isNotEmpty()) {
+            var current = pending.removeAt(0)
+            var merged = true
+            while (merged) {
+                merged = false
+                val it = pending.iterator()
+                while (it.hasNext()) {
+                    val other = it.next()
+                    if (sameRow(current, other)) {
+                        current = joinRow(current, other)
+                        it.remove()
+                        merged = true
+                    }
+                }
+            }
+            result.add(current)
+        }
+        return result
+    }
+
+    private fun sameRow(a: OcrLine, b: OcrLine): Boolean {
+        if (!compatibleScripts(a.script, b.script)) return false
+        val minH = min(a.box.height, b.box.height)
+        val maxH = max(a.box.height, b.box.height)
+        if (maxH > minH * 1.5f) return false
+        if (a.box.verticalOverlap(b.box) < minH * 0.7f) return false
+        val gap = if (a.box.left <= b.box.left) b.box.left - a.box.right else a.box.left - b.box.right
+        return gap <= maxH * 0.9f
+    }
+
+    private fun joinRow(a: OcrLine, b: OcrLine): OcrLine {
+        val rtl = a.script == Script.ARABIC || b.script == Script.ARABIC
+        // Visual left-to-right order; for RTL text the reading order is right-to-left.
+        val (first, second) = if ((a.box.left <= b.box.left) != rtl) a to b else b to a
+        val conf = listOfNotNull(a.confidence, b.confidence).takeIf { it.isNotEmpty() }?.average()?.toFloat()
+        return OcrLine(
+            text = first.text.trim() + " " + second.text.trim(),
+            box = a.box.union(b.box),
+            confidence = conf,
+            script = if (a.script == Script.NONE) b.script else a.script,
+        )
+    }
+
+    private fun continuesParagraph(last: OcrLine, line: OcrLine, group: List<OcrLine>): Boolean {
+        if (!compatibleScripts(last.script, line.script)) return false
+        val h1 = last.box.height.toFloat()
+        val h2 = line.box.height.toFloat()
+        if (max(h1, h2) > min(h1, h2) * 1.35f) return false
+        val avgH = (h1 + h2) / 2f
+        val gap = line.box.top - last.box.bottom
+        if (gap < -avgH * 0.3f || gap > avgH * 0.6f) return false
+        // A short line followed by a much longer one is not a wrapped sentence (e.g. title + body).
+        if (last.box.width < line.box.width * 0.5f) return false
+        // Previous line ended a sentence and the gap is not tight: likely separate items.
+        val end = last.text.trimEnd().lastOrNull()
+        if (end != null && end in ".!?:;…" && gap > avgH * 0.35f) return false
+        val groupBox = group.map { it.box }.reduce { a, b -> a.union(b) }
+        val overlap = groupBox.horizontalOverlap(line.box)
+        val leftAligned = abs(groupBox.left - line.box.left) <= avgH * 1.2f
+        val rightAligned = abs(groupBox.right - line.box.right) <= avgH * 1.2f
+        val rtl = line.script == Script.ARABIC
+        return overlap >= min(groupBox.width, line.box.width) * 0.6f &&
+            (leftAligned || (rtl && rightAligned) || overlap >= line.box.width * 0.9f)
+    }
+
+    private fun compatibleScripts(a: Script, b: Script): Boolean =
+        a == b || a == Script.NONE || b == Script.NONE
+}
