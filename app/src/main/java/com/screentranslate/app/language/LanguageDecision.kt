@@ -30,8 +30,13 @@ object LanguageDecision {
                 best?.first?.takeIf { longEnough && it in cyrillicLanguages && best.second >= 0.7f } ?: "ru"
             Script.ARABIC ->
                 best?.first?.takeIf { longEnough && it in arabicScriptLanguages && best.second >= 0.7f } ?: "ar"
+            // Short or noisy Latin text (often misread Cyrillic) gets odd guesses, so only a
+            // confident guess on a longer text beats English.
             Script.LATIN ->
-                best?.first?.takeIf { longEnough && it !in cyrillicLanguages && it !in arabicScriptLanguages } ?: "en"
+                best?.first?.takeIf {
+                    (it == "en" || (textLength >= 20 && best.second >= 0.8f)) &&
+                        it !in cyrillicLanguages && it !in arabicScriptLanguages
+                } ?: "en"
             Script.OTHER -> best?.first
         }
     }

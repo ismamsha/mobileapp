@@ -109,6 +109,15 @@ n=$(shown_count); tap_ui "Translate again"
 check "translate again" "wait_translation $n"; sleep 2; shot 14-retranslated
 tap_ui "Close translation"; sleep 2; shot 15-closed
 
+# --- 1b) Long Russian chat message: must be translated as whole paragraphs, not line fragments
+open_page ru-chat.html; shot 16-page-ru-chat
+n=$(shown_count); tap_ui bubble
+check "ru chat overlay shown" "wait_translation $n"; sleep 2; shot 17-ru-chat-to-ar
+blocks=$(applog | grep "Shown .* translated blocks" | tail -1 | awk '{print $(NF-2)}')
+echo "ru chat blocks: $blocks"
+check "ru chat kept as paragraphs (<= 6 blocks)" "[ -n \"$blocks\" ] && [ \"$blocks\" -le 6 ]"
+tap_ui "Close translation"; sleep 2
+
 # --- 2) Arabic -> English, target changed from the overlay language bar
 open_page ar.html; shot 20-page-ar
 n=$(shown_count); tap_ui bubble; wait_translation $n; sleep 2; shot 21-ar-page-target-ar

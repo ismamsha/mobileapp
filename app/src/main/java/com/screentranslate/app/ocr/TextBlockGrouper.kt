@@ -11,7 +11,7 @@ import kotlin.math.min
  */
 object TextBlockGrouper {
 
-    fun group(lines: List<OcrLine>, maxLinesPerBlock: Int = 10): List<LineGroup> {
+    fun group(lines: List<OcrLine>, maxLinesPerBlock: Int = 40): List<LineGroup> {
         val rows = mergeSameRow(lines.filter { it.text.isNotBlank() && it.box.width > 0 && it.box.height > 0 })
         val sorted = rows.sortedWith(compareBy<OcrLine> { it.box.top }.thenBy { it.box.left })
         val groups = mutableListOf<MutableList<OcrLine>>()
@@ -64,7 +64,8 @@ object TextBlockGrouper {
         if (maxH > minH * 1.5f) return false
         if (a.box.verticalOverlap(b.box) < minH * 0.7f) return false
         val gap = if (a.box.left <= b.box.left) b.box.left - a.box.right else a.box.left - b.box.right
-        return gap <= maxH * 0.9f
+        // Wide enough for an emoji or icon between words ("Привет! 🌹 Хочу"), but not for separate columns.
+        return gap <= maxH * 2.5f
     }
 
     private fun joinRow(a: OcrLine, b: OcrLine): OcrLine {
@@ -84,17 +85,27 @@ object TextBlockGrouper {
         if (!compatibleScripts(last.script, line.script)) return false
         val h1 = last.box.height.toFloat()
         val h2 = line.box.height.toFloat()
-        if (max(h1, h2) > min(h1, h2) * 1.35f) return false
+        // Glyph boxes vary with ascenders/descenders (Cyrillic lower case is short), so allow some spread.
+        if (max(h1, h2) > min(h1, h2) * 1.5f) return false
         val avgH = (h1 + h2) / 2f
         val gap = line.box.top - last.box.bottom
+        // Spacing the paragraph has used so far: a wrapped line repeats it, a new item does not.
+        val typicalGap = group.zipWithNext { a, b -> b.box.top - a.box.bottom }.sorted().let { g ->
+            if (g.isEmpty()) null else g[g.size / 2]
+        }
         // Arabic fonts use taller line spacing (dots and marks above/below the letters).
-        val maxGap = if (line.script == Script.ARABIC) 0.95f else 0.6f
-        if (gap < -avgH * 0.3f || gap > avgH * maxGap) return false
+        val maxGap = if (line.script == Script.ARABIC) 0.95f else 0.85f
+        val allowed = max(avgH * maxGap, typicalGap?.let { it * 1.25f + 2f } ?: 0f).coerceAtMost(avgH * 1.3f)
+        if (gap < -avgH * 0.3f || gap > allowed) return false
         // A short line followed by a much longer one is not a wrapped sentence (e.g. title + body).
-        if (last.box.width < line.box.width * 0.5f) return false
-        // Previous line ended a sentence and the gap is not tight: likely separate items.
+        if (group.size == 1 && last.box.width < line.box.width * 0.5f) return false
+        // Previous line ended a sentence: inside a paragraph the next line keeps the same spacing;
+        // a separate item usually sits further away.
         val end = last.text.trimEnd().lastOrNull()
-        if (end != null && end in ".!?:;…" && gap > avgH * 0.35f) return false
+        if (end != null && end in ".!?:;…") {
+            val separate = if (typicalGap != null) gap > typicalGap * 1.3f + 2f else gap > avgH * 0.6f
+            if (separate) return false
+        }
         val groupBox = group.map { it.box }.reduce { a, b -> a.union(b) }
         val overlap = groupBox.horizontalOverlap(line.box)
         val leftAligned = abs(groupBox.left - line.box.left) <= avgH * 1.2f

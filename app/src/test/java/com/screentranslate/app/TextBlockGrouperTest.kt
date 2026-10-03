@@ -64,4 +64,31 @@ class TextBlockGrouperTest {
         )
         assertEquals(2, TextBlockGrouper.group(lines).size)
     }
+
+    /** Chat bubble like the user's WhatsApp screenshot: uneven glyph heights, sentence ends mid-paragraph. */
+    @Test fun chatParagraphWithSentenceEndsStaysOneBlock() {
+        val c = Script.CYRILLIC
+        val texts = listOf(
+            "Ассаламу Алейкум!" to 34, "оставить отзыв о пробном" to 26, "занятии с устазой Валой." to 34,
+            "Я в полном восторге! Урок" to 34, "пролетел совершенно" to 26, "незаметно. У устазы очень" to 34,
+            "приятная манера общения, и" to 34, "она объясняет весь материал" to 34, "максимально доходчиво." to 34,
+            "Всем, кто искренне желает" to 34,
+        )
+        val lines = texts.mapIndexed { i, (t, h) ->
+            val top = 230 + i * 48 + (34 - h)
+            line(t, 135, top, 135 + t.length * 19, top + h, c)
+        } + line("Хочу", 530, 230, 610, 264, c) // after an emoji gap on the first row
+        val groups = TextBlockGrouper.group(lines)
+        assertEquals(1, groups.size)
+        assert(groups[0].text.startsWith("Ассаламу Алейкум! Хочу оставить"))
+    }
+
+    @Test fun separateMessagesStaySeparate() {
+        val c = Script.CYRILLIC
+        val lines = listOf(
+            line("Привет! Как у тебя дела сегодня?", 40, 100, 900, 134, c),
+            line("Всё хорошо, спасибо большое.", 40, 200, 860, 234, c),
+        )
+        assertEquals(2, TextBlockGrouper.group(lines).size)
+    }
 }

@@ -26,6 +26,21 @@ class RenderBlock(
  */
 class BlockLayoutCalculator(private val density: Float, private val scaledDensity: Float) {
 
+    companion object {
+        /**
+         * Line height of each block, snapped to the screen's common body-text line height when close
+         * to it: OCR boxes of same-size text differ (ascenders, descenders), which made fonts jump.
+         */
+        fun harmonizedLineHeights(boxHeights: List<Float>, lineCounts: List<Int>): List<Float> {
+            val raw = boxHeights.zip(lineCounts) { h, n -> h / n.coerceAtLeast(1) }
+            if (raw.size < 2) return raw
+            // Weight by line count: the body text is where most lines are.
+            val weighted = raw.zip(lineCounts).flatMap { (h, n) -> List(n.coerceAtLeast(1)) { h } }.sorted()
+            val body = weighted[weighted.size / 2]
+            return raw.map { if (it in body * 0.7f..body * 1.3f) body else it }
+        }
+    }
+
     private val padH = 3f * density
     private val padV = 1.5f * density
     private val minTextPx = 9f * scaledDensity
@@ -41,6 +56,8 @@ class BlockLayoutCalculator(private val density: Float, private val scaledDensit
         textColor: Int,
         screenWidth: Int,
         screenHeight: Int,
+        /** Shared line height for body text, so neighbouring blocks get the same font size. */
+        lineHeightPx: Float? = null,
     ): Pair<StaticLayout, RectF> {
         val paint = TextPaint(paintTemplate).apply { color = textColor }
         val margin = 4f * density
@@ -69,7 +86,7 @@ class BlockLayoutCalculator(private val density: Float, private val scaledDensit
         val layout: StaticLayout = when (val fixed = fontMode.sp) {
             null -> {
                 // Start from the original line height, shrink until it fits.
-                val lineH = boxHeight / lineCount.coerceAtLeast(1)
+                val lineH = lineHeightPx ?: (boxHeight / lineCount.coerceAtLeast(1))
                 var size = (lineH * 0.78f).coerceIn(minTextPx, maxTextPx)
                 var l = build(size)
                 while (size > minTextPx && l.height > boxHeight * 1.1f) {
