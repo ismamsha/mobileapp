@@ -27,18 +27,43 @@ jobs:
           yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
           set -o pipefail
           ./gradlew assembleDebug testDebugUnitTest lintDebug --stacktrace --no-daemon 2>&1 | tee build.log
+      - name: Keep phone APK, build emulator APK (adds x86_64)
+        if: steps.build.outcome == 'success'
+        run: |
+          mkdir -p ci-output
+          cp app/build/outputs/apk/debug/app-debug.apk ci-output/ScreenTranslate.apk
+          ./gradlew assembleDebug -PwithX86 --no-daemon -q
+      - name: Enable KVM
+        if: steps.build.outcome == 'success'
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Emulator test
+        if: steps.build.outcome == 'success'
+        continue-on-error: true
+        timeout-minutes: 30
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: bash ci/emulator-test.sh
       - name: Publish build output to the branch
         if: always()
         run: |
           mkdir -p ci-output
           tail -c 400000 build.log > ci-output/build.log || true
-          cp app/build/outputs/apk/debug/app-debug.apk ci-output/ScreenTranslate.apk 2>/dev/null || true
+          [ -f ci-output/ScreenTranslate.apk ] || cp app/build/outputs/apk/debug/app-debug.apk ci-output/ScreenTranslate.apk 2>/dev/null || true
           cp app/build/reports/lint-results-debug.txt ci-output/ 2>/dev/null || true
           mkdir -p ci-output/test-results && cp app/build/test-results/testDebugUnitTest/*.xml ci-output/test-results/ 2>/dev/null || true
           echo "${{ steps.build.outcome }}" > ci-output/STATUS
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -f ci-output
+          git pull --rebase -q || true
           git commit -m "CI build output (${{ steps.build.outcome }})" || exit 0
           git push
       - name: Fail if build failed

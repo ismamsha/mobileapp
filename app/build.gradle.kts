@@ -29,6 +29,8 @@ android {
         // Real phones only: keeps the APK small (Tesseract + ML Kit ship native code per ABI).
         ndk {
             abiFilters += listOf("arm64-v8a", "armeabi-v7a")
+            // CI emulator tests only: ./gradlew assembleDebug -PwithX86
+            if (project.hasProperty("withX86")) abiFilters += "x86_64"
         }
         vectorDrawables.useSupportLibrary = true
     }
