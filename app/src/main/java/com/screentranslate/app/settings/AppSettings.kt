@@ -20,7 +20,7 @@ data class AppSettings(
     val autoDetectSource: Boolean = true,
     val sourceLanguage: AppLanguage = AppLanguage.ENGLISH,
     val ocrMode: OcrMode = OcrMode.AUTOMATIC,
-    val overlayOpacity: Float = 0.95f,
+    val overlayOpacity: Float = 1f,
     val fontSize: FontSizeMode = FontSizeMode.AUTO,
     val showBubble: Boolean = true,
     val captureExplained: Boolean = false,

@@ -18,8 +18,14 @@ class HybridOcrEngine(
 
     override suspend fun recognize(bitmap: Bitmap): List<OcrBlock> = coroutineScope {
         val start = System.currentTimeMillis()
-        val ml = async { runCatching { mlKit.recognizeLines(bitmap) } }
-        val tess = if (useTesseract()) async { runCatching { tesseract.recognizeLines(bitmap) } } else null
+        val ml = async {
+            val t = System.currentTimeMillis()
+            runCatching { mlKit.recognizeLines(bitmap) }.also { Logx.d("ML Kit OCR ${System.currentTimeMillis() - t}ms") }
+        }
+        val tess = if (useTesseract()) async {
+            val t = System.currentTimeMillis()
+            runCatching { tesseract.recognizeLines(bitmap) }.also { Logx.d("Tesseract OCR ${System.currentTimeMillis() - t}ms") }
+        } else null
         val mlLines = ml.await().onFailure { Logx.w("ML Kit OCR failed", it) }.getOrDefault(emptyList())
         val tessLines = tess?.await()?.onFailure { Logx.w("Tesseract OCR failed", it) }?.getOrDefault(emptyList()).orEmpty()
         val merged = OcrMerger.merge(mlLines, tessLines)

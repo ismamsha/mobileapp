@@ -183,10 +183,17 @@ class TranslationOverlayController(
             }
             isClickable = true
             setOnClickListener { onClick() }
+            post { logBounds(this, description) }
             layoutParams = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
             ).apply { marginStart = (2 * density).toInt(); marginEnd = (2 * density).toInt() }
         }
+
+    private fun logBounds(v: View, name: String) {
+        val loc = IntArray(2)
+        v.getLocationOnScreen(loc)
+        Logx.d("UI_BOUNDS $name ${loc[0] + v.width / 2} ${loc[1] + v.height / 2}")
+    }
 
     /** "Original" removes the painted translations (and lets touches reach the app again). */
     private fun toggleOriginal() {

@@ -80,11 +80,20 @@ class FloatingBubbleController(
             icon = img
             progress = bar
             params = lp
+            frame.post { logBounds() }
             true
         } catch (e: Exception) {
             Logx.w("Could not add bubble", e)
             false
         }
+    }
+
+    /** Debug builds only (Logx): lets automated UI tests find the bubble. */
+    private fun logBounds() {
+        val r = root ?: return
+        val loc = IntArray(2)
+        r.getLocationOnScreen(loc)
+        Logx.d("UI_BOUNDS bubble ${loc[0] + r.width / 2} ${loc[1] + r.height / 2}")
     }
 
     private val orientationKey: String get() = if (screenW > screenH) "land" else "port"
@@ -124,6 +133,7 @@ class FloatingBubbleController(
         lp.y = prefs.getInt("y_$orientationKey", (height * 0.35f).toInt())
         clamp(lp)
         root?.let { runCatching { windowManager.updateViewLayout(it, lp) } }
+        root?.postDelayed({ logBounds() }, 300)
     }
 
     private fun clamp(lp: WindowManager.LayoutParams) {
@@ -184,6 +194,7 @@ class FloatingBubbleController(
                 start()
             }
             prefs.edit().putInt("x_$orientationKey", targetX).putInt("y_$orientationKey", lp.y).apply()
+            v.postDelayed({ logBounds() }, 250)
         }
     }
 }

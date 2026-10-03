@@ -319,8 +319,12 @@ class ScreenCaptureService : Service() {
                 }
                 // Screenshot lives only in RAM and is recycled right after OCR + color sampling.
                 val styled: List<Pair<OcrBlock, BlockStyle>> = try {
+                    val statusBar = statusBarHeight()
                     withContext(Dispatchers.Default) {
-                        container.ocrEngine.recognize(bitmap).map { it to BackgroundSampler.sample(bitmap, it.boundingBox) }
+                        container.ocrEngine.recognize(bitmap)
+                            // Clock/notification icons in the status bar are not content.
+                            .filter { it.boundingBox.bottom > statusBar }
+                            .map { it to BackgroundSampler.sample(bitmap, it.boundingBox) }
                     }
                 } finally {
                     bitmap.recycle()
@@ -342,6 +346,12 @@ class ScreenCaptureService : Service() {
                 b?.setLoading(false)
             }
         }
+    }
+
+    @android.annotation.SuppressLint("DiscouragedApi", "InternalInsetResource")
+    private fun statusBarHeight(): Int {
+        val id = resources.getIdentifier("status_bar_height", "dimen", "android")
+        return if (id > 0) resources.getDimensionPixelSize(id) else (24 * resources.displayMetrics.density).toInt()
     }
 
     private suspend fun translateAndShow(
@@ -417,21 +427,35 @@ class ScreenCaptureService : Service() {
         override fun onDisplayRemoved(displayId: Int) {}
         override fun onDisplayChanged(displayId: Int) {
             if (displayId != Display.DEFAULT_DISPLAY) return
-            val cap = capture ?: return
-            val m = ScreenMetrics.current(uiContext)
-            if (m.width == cap.metrics?.width && m.height == cap.metrics?.height) return
-            Logx.d("Screen size changed: ${m.width}x${m.height}")
-            translateJob?.cancel()
-            overlay?.hide()
-            bubble?.setLoading(false)
-            bubble?.setHiddenForCapture(false)
-            try {
-                cap.resize(m)
-            } catch (e: Exception) {
-                Logx.w("resize failed", e)
-            }
-            bubble?.onScreenChanged(m.width, m.height)
+            checkScreenSize()
+            // Some devices report the new size slightly later: check again.
+            mainHandler.removeCallbacks(recheckSize)
+            mainHandler.postDelayed(recheckSize, 400)
         }
+    }
+
+    private val recheckSize = Runnable { checkScreenSize() }
+
+    override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
+        super.onConfigurationChanged(newConfig)
+        checkScreenSize()
+    }
+
+    private fun checkScreenSize() {
+        val cap = capture ?: return
+        val m = ScreenMetrics.current(uiContext)
+        if (m.width == cap.metrics?.width && m.height == cap.metrics?.height) return
+        Logx.d("Screen size changed: ${m.width}x${m.height}")
+        translateJob?.cancel()
+        overlay?.hide()
+        bubble?.setLoading(false)
+        bubble?.setHiddenForCapture(false)
+        try {
+            cap.resize(m)
+        } catch (e: Exception) {
+            Logx.w("resize failed", e)
+        }
+        bubble?.onScreenChanged(m.width, m.height)
     }
 
     private fun registerDisplayListener() {
@@ -442,6 +466,7 @@ class ScreenCaptureService : Service() {
 
     private fun unregisterDisplayListener() {
         if (!displayListenerRegistered) return
+        mainHandler.removeCallbacks(recheckSize)
         getSystemService(DisplayManager::class.java).unregisterDisplayListener(displayListener)
         displayListenerRegistered = false
     }

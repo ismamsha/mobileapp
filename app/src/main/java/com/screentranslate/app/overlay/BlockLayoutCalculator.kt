@@ -81,17 +81,21 @@ class BlockLayoutCalculator(private val density: Float, private val scaledDensit
             else -> build(fixed * scaledDensity)
         }
 
+        // The OCR box hugs the glyphs; grow it so ascenders/descenders of the original are covered.
+        val growX = 3f * density
+        val growY = 2f * density
+        val origW = original.width() + 2 * growX
         val w = layout.width + 2 * padH
-        val h = max(boxHeight, layout.height + 2 * padV)
-        var left = if (rtl) original.right - max(w, original.width().toFloat()) else original.left.toFloat()
-        var right = left + max(w, original.width().toFloat())
+        val h = max(boxHeight + 2 * growY, layout.height + 2 * padV)
+        var left = if (rtl) original.right + growX - max(w, origW) else original.left - growX
+        var right = left + max(w, origW)
         if (right > screenWidth - margin) {
             left -= right - (screenWidth - margin); right = screenWidth - margin
         }
         if (left < margin && original.left >= margin) {
             right += margin - left; left = margin
         }
-        var top = original.top.toFloat()
+        var top = original.top - growY
         if (top + h > screenHeight) top = max(0f, screenHeight - h)
         return layout to RectF(left, top, right, top + h)
     }

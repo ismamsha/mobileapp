@@ -21,7 +21,7 @@ object OcrMerger {
             (it.script == Script.CYRILLIC || it.script == Script.ARABIC) &&
                 (it.confidence ?: 1f) >= MIN_TESSERACT_CONFIDENCE
         }
-        val keptMl = mlKit.filter { ml -> nonLatinTess.none { it.box.overlapRatio(ml.box) >= OVERLAP } }
+        val keptMl = mlKit.filter { isPlausibleMlKit(it) }.filter { ml -> nonLatinTess.none { it.box.overlapRatio(ml.box) >= OVERLAP } }
         val extraLatinTess = cleanTess.filter { t ->
             t.script == Script.LATIN &&
                 (t.confidence ?: 0f) >= MIN_TESSERACT_LATIN_CONFIDENCE &&
@@ -29,6 +29,14 @@ object OcrMerger {
                 nonLatinTess.none { it.box.overlapRatio(t.box) >= OVERLAP }
         }
         return keptMl + nonLatinTess + extraLatinTess
+    }
+
+    /** ML Kit reads icons as short low-confidence strings ("bs", "xa"). */
+    fun isPlausibleMlKit(line: OcrLine): Boolean {
+        val letters = ScriptDetector.count(line.text).letters
+        if (letters == 0) return false
+        val conf = line.confidence ?: 1f
+        return !(letters < 4 && conf < 0.7f) && conf >= 0.3f
     }
 
     /** Drops Tesseract noise produced by icons, images and separators. */
