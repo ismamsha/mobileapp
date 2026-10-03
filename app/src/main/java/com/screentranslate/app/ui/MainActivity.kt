@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
             moveTaskToBack(true)
         } else {
             ServiceState.setMessage(
-                "Screen capture permission was denied. Muin Screen Translator needs it to read the text on your screen. Tap Start to try again."
+                "Screen capture permission was denied. MuinScreenTranslator needs it to read the text on your screen. Tap Start to try again."
             )
             backStack.clear()
             backStack.add(Screen.HOME)

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Muin Screen Translator</string>
+    <string name="app_name">MuinScreenTranslator</string>
     <string name="notification_channel_name">Screen translator</string>
-    <string name="notification_channel_desc">Shown while Muin Screen Translator can read your screen</string>
-    <string name="notification_title">Muin Screen Translator is running</string>
+    <string name="notification_channel_desc">Shown while MuinScreenTranslator can read your screen</string>
+    <string name="notification_title">MuinScreenTranslator is running</string>
     <string name="notification_text">Tap the bubble to translate. Target: %1$s</string>
     <string name="action_translate">Translate</string>
     <string name="action_stop">Stop</string>

@@ -228,7 +228,7 @@ private fun HomeScreen(vm: AppViewModel, activity: MainActivity, navigate: (Scre
     val tessProgress by vm.tessProgress.collectAsStateWithLifecycle()
 
     Page(
-        title = "Muin Screen Translator",
+        title = "MuinScreenTranslator",
         back = null,
         actions = {
             IconButton(onClick = { navigate(Screen.SETTINGS) }) { Icon(Icons.Filled.Settings, "Settings") }
@@ -332,11 +332,11 @@ private fun StepHeader(step: Int, title: String) {
 private fun OverlayStepScreen(activity: MainActivity, navigate: (Screen) -> Unit, back: () -> Unit) {
     val denied by activity.overlayDeniedOnce
     Page("Set up", back) {
-        StepHeader(1, "Allow Muin Screen Translator to appear over other apps")
+        StepHeader(1, "Allow MuinScreenTranslator to appear over other apps")
         Text(
             "This lets the small translate bubble float above WhatsApp, Telegram, Chrome and other apps, " +
-                "and lets Muin Screen Translator draw translations on top of the original text.\n\n" +
-                "Muin Screen Translator never taps, types or changes anything inside other apps.",
+                "and lets MuinScreenTranslator draw translations on top of the original text.\n\n" +
+                "MuinScreenTranslator never taps, types or changes anything inside other apps.",
             style = MaterialTheme.typography.bodyLarge,
         )
         Spacer(Modifier.height(24.dp))
@@ -345,13 +345,13 @@ private fun OverlayStepScreen(activity: MainActivity, navigate: (Screen) -> Unit
         }
         Spacer(Modifier.height(8.dp))
         Text(
-            "In the list, find Muin Screen Translator and turn on \"Allow display over other apps\", then press back.",
+            "In the list, find MuinScreenTranslator and turn on \"Allow display over other apps\", then press back.",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         if (denied) {
             MessageCard(
-                "The permission is still off. Muin Screen Translator can't show the bubble or translations without it.",
+                "The permission is still off. MuinScreenTranslator can't show the bubble or translations without it.",
                 action = if (DeviceUtils.isXiaomiFamily) "Xiaomi help" else null,
                 onAction = if (DeviceUtils.isXiaomiFamily) ({ navigate(Screen.XIAOMI_HELP) }) else null,
             )
@@ -366,7 +366,7 @@ private fun CaptureStepScreen(activity: MainActivity, back: () -> Unit) {
     Page("Set up", back) {
         StepHeader(2, "Allow screen capture")
         Text(
-            "To find the text you want translated, Muin Screen Translator takes a picture of the screen each time you tap the bubble.\n\n" +
+            "To find the text you want translated, MuinScreenTranslator takes a picture of the screen each time you tap the bubble.\n\n" +
                 "Android will show its own screen-capture dialog. Choose \"Entire screen\" if you are asked, then tap \"Start now\".",
             style = MaterialTheme.typography.bodyLarge,
         )
@@ -565,19 +565,19 @@ private fun XiaomiHelpScreen(activity: MainActivity, back: () -> Unit) {
     Page("Xiaomi / MIUI help", back) {
         Text(
             "MIUI and HyperOS (Xiaomi, Redmi, POCO) add their own permission switches on top of Android. " +
-                "If the bubble does not appear, or Muin Screen Translator stops by itself, check these:",
+                "If the bubble does not appear, or MuinScreenTranslator stops by itself, check these:",
             style = MaterialTheme.typography.bodyLarge,
         )
         SectionTitle("1. Display over other apps")
         Text(
-            "Settings → Apps → Manage apps → Muin Screen Translator → Other permissions →\n" +
+            "Settings → Apps → Manage apps → MuinScreenTranslator → Other permissions →\n" +
                 "• Display pop-up windows while running in the background → Allow\n" +
                 "• Display pop-up windows / Display over other apps → Allow",
             style = MaterialTheme.typography.bodyMedium,
         )
         SectionTitle("2. Keep it running")
         Text(
-            "Settings → Apps → Manage apps → Muin Screen Translator →\n" +
+            "Settings → Apps → Manage apps → MuinScreenTranslator →\n" +
                 "• Autostart → On\n" +
                 "• Battery saver → No restrictions\n\n" +
                 "Optionally lock the app in Recents (swipe down on its card) so MIUI doesn't close it.",
@@ -585,7 +585,7 @@ private fun XiaomiHelpScreen(activity: MainActivity, back: () -> Unit) {
         )
         SectionTitle("3. Notifications")
         Text(
-            "Allow notifications for Muin Screen Translator so you can see that it is running and use the Translate / Stop buttons.",
+            "Allow notifications for MuinScreenTranslator so you can see that it is running and use the Translate / Stop buttons.",
             style = MaterialTheme.typography.bodyMedium,
         )
         Spacer(Modifier.height(20.dp))
@@ -613,7 +613,7 @@ private const val PRIVACY_TEXT = """Screen images are processed locally and are 
 • The internet is used only to download translation models and text-recognition language data once.
 • You can stop screen capture at any time from the app or the notification."""
 
-private val ABOUT_TEXT = """Muin Screen Translator ${BuildConfig.VERSION_NAME}
+private val ABOUT_TEXT = """MuinScreenTranslator ${BuildConfig.VERSION_NAME}
 
 Translates the text on your screen in place, over any app: tap the floating bubble and translations appear on top of the original text.
 

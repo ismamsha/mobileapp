@@ -153,7 +153,7 @@ class ScreenCaptureService : Service() {
             return
         }
         if (!Settings.canDrawOverlays(this)) {
-            shutdown("Muin Screen Translator needs permission to appear over other apps.")
+            shutdown("MuinScreenTranslator needs permission to appear over other apps.")
             return
         }
         val resultCode = intent.getIntExtra(EXTRA_RESULT_CODE, 0)
@@ -207,7 +207,7 @@ class ScreenCaptureService : Service() {
             val msg = if (DeviceUtils.isXiaomiFamily) {
                 "The bubble was blocked. On Xiaomi, allow \"Display pop-up windows while running in the background\"."
             } else {
-                "The bubble could not be shown. Allow Muin Screen Translator to appear over other apps."
+                "The bubble could not be shown. Allow MuinScreenTranslator to appear over other apps."
             }
             Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
         }
