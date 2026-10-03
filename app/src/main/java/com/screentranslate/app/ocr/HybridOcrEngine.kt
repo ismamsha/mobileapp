@@ -34,7 +34,9 @@ class HybridOcrEngine(
                 .onFailure { Logx.w("Tesseract OCR failed", it) }.getOrDefault(emptyList())
             val blocks = TextBlockGrouper.group(OcrMerger.merge(emptyList(), tessLines)).map { it.toOcrBlock() }
             Logx.d("OCR (Tesseract only, ML Kit avg ${mlKitAvgMs}ms): tess=${tessLines.size} blocks=${blocks.size} in ${System.currentTimeMillis() - start}ms")
-            return blocks
+            // Nothing found (e.g. text in the target language's script, which Tesseract isn't
+            // loaded for): let ML Kit have a look too.
+            if (blocks.isNotEmpty()) return blocks
         }
 
         val mlLines = runCatching { mlKit.recognizeLines(bitmap) }

@@ -315,28 +315,12 @@ class ScreenCaptureService : Service() {
                 overlay?.hide()
                 status?.hide()
                 b?.setLoading(true)
-                b?.setHiddenForCapture(true)
                 val metrics = cap.metrics ?: return@launch
-                val bitmap = try {
-                    withContext(Dispatchers.Default) { cap.capture() }
-                } finally {
-                    b?.setHiddenForCapture(false)
-                }
-                if (bitmap == null) {
-                    status?.show("Couldn't read the screen. Tap the bubble to try again.")
-                    return@launch
-                }
-                // Screenshot lives only in RAM and is recycled right after OCR + color sampling.
-                val styled: List<Pair<OcrBlock, BlockStyle>> = try {
-                    val statusBar = statusBarHeight()
-                    withContext(Dispatchers.Default) {
-                        container.ocrEngine.recognize(bitmap)
-                            // Clock/notification icons in the status bar are not content.
-                            .filter { it.boundingBox.bottom > statusBar }
-                            .map { it to BackgroundSampler.sample(bitmap, it.boundingBox) }
-                    }
-                } finally {
-                    bitmap.recycle()
+                var styled = captureAndRecognize(cap) ?: return@launch
+                if (styled.isEmpty()) {
+                    // Right after a rotation or app switch the first frame can be stale or blank.
+                    delay(400)
+                    styled = captureAndRecognize(cap) ?: return@launch
                 }
                 if (styled.isEmpty()) {
                     status?.show("No text was detected on this screen.")
@@ -354,6 +338,33 @@ class ScreenCaptureService : Service() {
             } finally {
                 b?.setLoading(false)
             }
+        }
+    }
+
+    /** Captures and reads the screen; null when the screen couldn't be captured (already reported). */
+    private suspend fun captureAndRecognize(cap: ScreenCaptureController): List<Pair<OcrBlock, BlockStyle>>? {
+        val b = bubble
+        b?.setHiddenForCapture(true)
+        val bitmap = try {
+            withContext(Dispatchers.Default) { cap.capture() }
+        } finally {
+            b?.setHiddenForCapture(false)
+        }
+        if (bitmap == null) {
+            status?.show("Couldn't read the screen. Tap the bubble to try again.")
+            return null
+        }
+        // Screenshot lives only in RAM and is recycled right after OCR + color sampling.
+        return try {
+            val statusBar = statusBarHeight()
+            withContext(Dispatchers.Default) {
+                container.ocrEngine.recognize(bitmap)
+                    // Clock/notification icons in the status bar are not content.
+                    .filter { it.boundingBox.bottom > statusBar }
+                    .map { it to BackgroundSampler.sample(bitmap, it.boundingBox) }
+            }
+        } finally {
+            bitmap.recycle()
         }
     }
 
