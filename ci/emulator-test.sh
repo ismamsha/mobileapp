@@ -71,6 +71,7 @@ for n in ET.parse('/tmp/ui.xml').getroot().iter('node'):
 }
 adb install -r -g app/build/outputs/apk/release/app-release.apk || exit 1
 check "app is not debuggable" "! adb shell dumpsys package $A | grep -q 'flags=.*DEBUGGABLE'"
+check "usage-statistics uploader removed" "! adb shell dumpsys package $A | grep -q 'TransportBackendDiscovery'"
 check "no cleartext traffic allowed" "! adb shell dumpsys package $A | grep -q 'flags=.*USES_CLEARTEXT_TRAFFIC'"
 adb shell appops set $A SYSTEM_ALERT_WINDOW allow
 adb shell appops set $A PROJECT_MEDIA allow
