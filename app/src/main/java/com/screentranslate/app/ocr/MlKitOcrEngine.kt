@@ -14,14 +14,22 @@ class MlKitOcrEngine : OcrEngine, LineRecognizer {
     private val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
     override suspend fun recognizeLines(bitmap: Bitmap): List<OcrLine> {
-        val result = recognizer.process(InputImage.fromBitmap(bitmap, 0)).await()
+        // Screen text is large enough that a 3/4-size image reads just as well, and much faster.
+        val scale = if (bitmap.width >= 1000) 0.75f else 1f
+        val input = if (scale == 1f) bitmap
+        else Bitmap.createScaledBitmap(bitmap, (bitmap.width * scale).toInt(), (bitmap.height * scale).toInt(), true)
+        val result = try {
+            recognizer.process(InputImage.fromBitmap(input, 0)).await()
+        } finally {
+            if (input !== bitmap) input.recycle()
+        }
         val lines = ArrayList<OcrLine>()
         for ((index, block) in result.textBlocks.withIndex()) {
             for (line in block.lines) {
                 val r = line.boundingBox ?: continue
                 lines += OcrLine(
                     text = line.text,
-                    box = Box(r.left, r.top, r.right, r.bottom),
+                    box = Box(r.left, r.top, r.right, r.bottom).scaled(1f / scale),
                     confidence = line.confidence,
                     script = ScriptDetector.dominant(line.text),
                     group = index,

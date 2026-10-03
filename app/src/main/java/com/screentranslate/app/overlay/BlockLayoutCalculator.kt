@@ -82,7 +82,7 @@ class BlockLayoutCalculator(private val density: Float, private val scaledDensit
         }
 
         // The OCR box hugs the glyphs; grow it so ascenders/descenders of the original are covered.
-        val growX = 3f * density
+        val growX = 5f * density
         val growY = 2f * density
         val origW = original.width() + 2 * growX
         val w = layout.width + 2 * padH

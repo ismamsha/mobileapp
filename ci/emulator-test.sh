@@ -114,11 +114,11 @@ n=$(shown_count); tap_ui English
 check "ar->en overlay shown" "wait_translation $n"; sleep 2; shot 23-ar-to-en
 tap_ui "Close translation"; sleep 2
 
-# --- 3) English (dark page) -> Russian
+# --- 3) English (dark page) -> Russian, target changed in the app
+adb shell am start -n $A/.ui.MainActivity; sleep 4
+tap_text "English  ·  English"; sleep 2; tap_text "Russian  ·  Русский"; sleep 2; shot 29-target-russian
 open_page en.html; shot 30-page-en
-n=$(shown_count); tap_ui bubble; wait_translation $n; sleep 1
-tap_ui "Change target language"; sleep 2
-n=$(shown_count); tap_ui Russian
+n=$(shown_count); tap_ui bubble
 check "en->ru overlay shown" "wait_translation $n"; sleep 2; shot 31-en-to-ru
 tap_ui "Close translation"; sleep 2
 

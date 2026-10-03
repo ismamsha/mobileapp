@@ -87,7 +87,9 @@ object TextBlockGrouper {
         if (max(h1, h2) > min(h1, h2) * 1.35f) return false
         val avgH = (h1 + h2) / 2f
         val gap = line.box.top - last.box.bottom
-        if (gap < -avgH * 0.3f || gap > avgH * 0.6f) return false
+        // Arabic fonts use taller line spacing (dots and marks above/below the letters).
+        val maxGap = if (line.script == Script.ARABIC) 0.95f else 0.6f
+        if (gap < -avgH * 0.3f || gap > avgH * maxGap) return false
         // A short line followed by a much longer one is not a wrapped sentence (e.g. title + body).
         if (last.box.width < line.box.width * 0.5f) return false
         // Previous line ended a sentence and the gap is not tight: likely separate items.

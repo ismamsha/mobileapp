@@ -46,7 +46,8 @@ class TesseractOcrEngine(
         withContext(Dispatchers.Default) {
             val tess = obtain(installed(langs)) ?: return@withContext emptyList()
             val scale = when {
-                bitmap.width >= 1000 -> 0.65f
+                // Arabic dots and joins need more pixels than Cyrillic/Latin.
+                bitmap.width >= 1000 -> if ("ara" in langs) 0.85f else 0.65f
                 bitmap.width < 700 -> 1.4f
                 else -> 1f
             }
