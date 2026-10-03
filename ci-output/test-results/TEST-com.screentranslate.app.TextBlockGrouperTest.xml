@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.screentranslate.app.TextBlockGrouperTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-03T17:33:50.150Z" hostname="runnervm8df0l" time="0.021">
+<testsuite name="com.screentranslate.app.TextBlockGrouperTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-03T20:04:33.194Z" hostname="runnervm8df0l" time="0.014">
   <properties/>
   <testcase name="differentScriptsStaySeparate" classname="com.screentranslate.app.TextBlockGrouperTest" time="0.003"/>
-  <testcase name="menuItemsStaySeparate" classname="com.screentranslate.app.TextBlockGrouperTest" time="0.002"/>
-  <testcase name="wrappedParagraphBecomesOneBlock" classname="com.screentranslate.app.TextBlockGrouperTest" time="0.002"/>
-  <testcase name="sameRowFragmentsAreJoined" classname="com.screentranslate.app.TextBlockGrouperTest" time="0.01"/>
+  <testcase name="menuItemsStaySeparate" classname="com.screentranslate.app.TextBlockGrouperTest" time="0.0"/>
+  <testcase name="wrappedParagraphBecomesOneBlock" classname="com.screentranslate.app.TextBlockGrouperTest" time="0.001"/>
+  <testcase name="sameRowFragmentsAreJoined" classname="com.screentranslate.app.TextBlockGrouperTest" time="0.008"/>
   <testcase name="arabicFragmentsJoinRightToLeft" classname="com.screentranslate.app.TextBlockGrouperTest" time="0.0"/>
-  <testcase name="titleAndBodyStaySeparate" classname="com.screentranslate.app.TextBlockGrouperTest" time="0.001"/>
+  <testcase name="titleAndBodyStaySeparate" classname="com.screentranslate.app.TextBlockGrouperTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

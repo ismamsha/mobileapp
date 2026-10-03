@@ -1,0 +1,246 @@
+/home/runner/work/mobileapp/mobileapp/app/build.gradle.kts:25: Warning: Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the android.os.Build.VERSION_CODES javadoc for details. [OldTargetApi]
+        targetSdk = 35
+        ~~~~~~~~~~~~~~
+
+   Explanation for issues of type "OldTargetApi":
+   When your application or sdk runs on a version of Android that is more
+   recent than your targetSdkVersion specifies that it has been tested with,
+   various compatibility modes kick in. This ensures that your application
+   continues to work, but it may look out of place. For example, if the
+   targetSdkVersion is less than 14, your app may get an option button in the
+   UI.
+
+   To fix this issue, set the targetSdkVersion to the highest available value.
+   Then test your app to make sure everything works correctly. You may want to
+   consult the compatibility notes to see what changes apply to each version
+   you are adding support for:
+   https://developer.android.com/reference/android/os/Build.VERSION_CODES.html
+   as well as follow this guide:
+   https://developer.android.com/distribute/best-practices/develop/target-sdk.
+   html
+
+   https://developer.android.com/distribute/best-practices/develop/target-sdk.html
+
+/home/runner/work/mobileapp/mobileapp/gradle/wrapper/gradle-wrapper.properties:3: Warning: A newer version of Gradle than 8.14.3 is available: 8.14.5 [AndroidGradlePluginVersion]
+distributionUrl=https\://services.gradle.org/distributions/gradle-8.14.3-bin.zip
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "AndroidGradlePluginVersion":
+   This detector looks for usage of the Android Gradle Plugin where the
+   version you are using is not the current stable release. Using older
+   versions is fine, and there are cases where you deliberately want to stick
+   with an older version. However, you may simply not be aware that a more
+   recent version is available, and that is what this lint check helps find.
+
+/home/runner/work/mobileapp/mobileapp/app/build.gradle.kts:107: Warning: A newer version of androidx.core:core-ktx than 1.16.0 is available: 1.19.1 [GradleDependency]
+    implementation("androidx.core:core-ktx:1.16.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/build.gradle.kts:108: Warning: A newer version of androidx.activity:activity-compose than 1.10.1 is available: 1.13.0 [GradleDependency]
+    implementation("androidx.activity:activity-compose:1.10.1")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/build.gradle.kts:109: Warning: A newer version of androidx.lifecycle:lifecycle-runtime-ktx than 2.9.0 is available: 2.11.0 [GradleDependency]
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/build.gradle.kts:110: Warning: A newer version of androidx.lifecycle:lifecycle-runtime-compose than 2.9.0 is available: 2.11.0 [GradleDependency]
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/build.gradle.kts:111: Warning: A newer version of androidx.lifecycle:lifecycle-viewmodel-compose than 2.9.0 is available: 2.11.0 [GradleDependency]
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.0")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/build.gradle.kts:112: Warning: A newer version of androidx.datastore:datastore-preferences than 1.1.7 is available: 1.2.1 [GradleDependency]
+    implementation("androidx.datastore:datastore-preferences:1.1.7")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "GradleDependency":
+   This detector looks for usages of libraries where the version you are using
+   is not the current stable release. Using older versions is fine, and there
+   are cases where you deliberately want to stick with an older version.
+   However, you may simply not be aware that a more recent version is
+   available, and that is what this lint check helps find.
+
+/home/runner/work/mobileapp/mobileapp/app/build.gradle.kts:31: Warning: Missing x86_64 ABI support for ChromeOS [ChromeOsAbiSupport]
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a")
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "ChromeOsAbiSupport":
+   To properly support ChromeOS, your Android application should have an x86
+   and/or x86_64 binary as part of the build configuration. To fix the issue,
+   ensure your files are properly optimized for ARM; the binary translator
+   will then ensure compatibility with x86. Alternatively, add an abiSplit for
+   x86 within your build.gradle file and create the required x86
+   dependencies.
+
+   https://developer.android.com/ndk/guides/abis
+
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/service/ScreenCaptureService.kt:488: Warning: Unnecessary; SDK_INT is never < 26 [ObsoleteSdkInt]
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/src/main/res/mipmap-anydpi-v26: Warning: This folder configuration (v26) is unnecessary; minSdkVersion is 26. Merge all the resources in this folder into mipmap-anydpi. [ObsoleteSdkInt]
+
+   Explanation for issues of type "ObsoleteSdkInt":
+   This check flags version checks that are not necessary, because the
+   minSdkVersion (or surrounding known API level) is already at least as high
+   as the version checked for.
+
+   Similarly, it also looks for resources in -vNN folders, such as values-v14
+   where the version qualifier is less than or equal to the minSdkVersion,
+   where the contents should be merged into the best folder.
+
+/home/runner/work/mobileapp/mobileapp/app/src/main/res/drawable/ic_launcher_foreground.xml:8: Warning: Very long vector path (1569 characters), which is bad for performance. Considering reducing precision, removing minor details or rasterizing vector. [VectorPath]
+        <path android:fillColor="#FF1565E8" android:pathData="M-5.398681640625 -0.7047783879950487Q-4.906494140625 -1.2687432317450487 -4.434814453125 -1.5353447942450487Q-4.947509765625 -1.5763604192450487 -5.439697265625 -1.8839776067450487Q-6.352294921875 -2.4581963567450487 -6.342041015625 -4.109075262995049Q-6.331787109375 -5.647161200495049 -4.014404296875 -7.308294012995049Q-2.794189453125 -8.179876044245049 1.420166015625 -8.015813544245049Q1.420166015625 -8.015813544245049 1.420166015625 -5.390813544245049Q-0.968994140625 -5.452336981745049 -1.768798828125 -5.062688544245049Q-2.722412109375 -4.601262762995049 -2.722412109375 -3.7809502629950487Q-2.722412109375 -3.2785088567450487 -2.230224609375 -2.9913994817450487Q-1.758544921875 -2.7042901067450487 -0.466552734375 -3.1862237004950487Q1.061279296875 -3.7501885442450487 3.758056640625 -3.9347588567450487Q3.758056640625 -3.9347588567450487 3.758056640625 -1.3097588567450487Q0.035888671875 -0.7868096379950487 -1.194580078125 0.04375676825495134Q-2.968505859375 1.2537177057549513 -2.968505859375 2.6585028620049513Q-2.968505859375 3.7146552057549513 -1.912353515625 4.627252862004951Q-0.989501953125 5.427057549504951 1.440673828125 5.416803643254951Q4.527099609375 5.416803643254951 6.639404296875 3.8479559870049513Q6.639404296875 3.8479559870049513 6.639404296875 6.667780205754951Q4.957763671875 8.041803643254951 1.491943359375 8.041803643254951Q-3.358154296875 8.031549737004951 -5.029541015625 6.380670830754951Q-6.639404296875 4.801569268254951 -6.639404296875 2.9148505182549513Q-6.639404296875 0.7205145807549513 -5.398681640625 -0.7047783879950487Z" />
+                                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "VectorPath":
+   Using long vector paths is bad for performance. There are several ways to
+   make the pathData shorter:
+   * Using less precision
+   * Removing some minor details
+   * Using the Android Studio vector conversion tool
+   * Rasterizing the image (converting to PNG)
+
+/home/runner/work/mobileapp/mobileapp/app/src/main/res/values/colors.xml:3: Warning: The resource R.color.brand appears to be unused [UnusedResources]
+    <color name="brand">#1A73E8</color>
+           ~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/src/main/res/values/colors.xml:4: Warning: The resource R.color.brand_dark appears to be unused [UnusedResources]
+    <color name="brand_dark">#0B57D0</color>
+           ~~~~~~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/src/main/res/values/colors.xml:5: Warning: The resource R.color.ic_launcher_background appears to be unused [UnusedResources]
+    <color name="ic_launcher_background">#1A73E8</color>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "UnusedResources":
+   Unused resources make applications larger and slow down builds.
+
+
+   The unused resource check can ignore tests. If you want to include
+   resources that are only referenced from tests, consider packaging them in a
+   test source set instead.
+
+   You can include test sources in the unused resource check by setting the
+   system property lint.unused-resources.include-tests =true, and to exclude
+   them (usually for performance reasons), use
+   lint.unused-resources.exclude-tests =true.
+   ,
+
+   Available options:
+
+   **skip-libraries** (default is true):
+   Whether the unused resource check should skip reporting unused resources in libraries.
+
+   Many libraries will declare resources that are part of the library surface; other modules depending on the library will also reference the resources. To avoid reporting all these resources as unused (in the context of a library), the unused resource check normally skips reporting unused resources in libraries. Instead, run the unused resource check on the consuming app module (along with `checkDependencies=true`).
+
+   However, there are cases where you want to check that all the resources declared in a library are used; in that case, you can disable the skip option.
+
+   To configure this option, use a `lint.xml` file with an <option> like this:
+
+   ```xml
+   <lint>
+       <issue id="UnusedResources">
+           <option name="skip-libraries" value="true" />
+       </issue>
+   </lint>
+   ```
+
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/overlay/BackgroundSampler.kt:24: Warning: Use the KTX extension function Bitmap.get instead? [UseKtx]
+                pixels += bitmap.getPixel(x, t)
+                          ~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/overlay/BackgroundSampler.kt:25: Warning: Use the KTX extension function Bitmap.get instead? [UseKtx]
+                pixels += bitmap.getPixel(x, b)
+                          ~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/overlay/BackgroundSampler.kt:30: Warning: Use the KTX extension function Bitmap.get instead? [UseKtx]
+                pixels += bitmap.getPixel(l, y)
+                          ~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/overlay/BackgroundSampler.kt:31: Warning: Use the KTX extension function Bitmap.get instead? [UseKtx]
+                pixels += bitmap.getPixel(r, y)
+                          ~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/util/DeviceUtils.kt:26: Warning: Use the KTX extension function String.toUri instead? [UseKtx]
+        Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:${context.packageName}"))
+                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/util/DeviceUtils.kt:30: Warning: Use the KTX extension function String.toUri instead? [UseKtx]
+        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:${context.packageName}"))
+                                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/overlay/FloatingBubbleController.kt:196: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+            prefs.edit().putInt("x_$orientationKey", targetX).putInt("y_$orientationKey", lp.y).apply()
+            ~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/ocr/HybridOcrEngine.kt:44: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        prefs.edit().putLong(KEY_ML_AVG, mlKitAvgMs).apply()
+        ~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/ui/MainActivity.kt:124: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+            prefs.edit().putBoolean("asked_notifications", true).apply()
+            ~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/ocr/MlKitOcrEngine.kt:20: Warning: Use the KTX extension function Bitmap.scale instead? [UseKtx]
+        else Bitmap.createScaledBitmap(bitmap, (bitmap.width * scale).toInt(), (bitmap.height * scale).toInt(), true)
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/capture/ScreenCaptureController.kt:121: Warning: Use the KTX function createBitmap instead? [UseKtx]
+        val padded = Bitmap.createBitmap(image.width + rowPadding / pixelStride, image.height, Bitmap.Config.ARGB_8888)
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/service/ScreenCaptureService.kt:234: Warning: Use the KTX function createBitmap instead? [UseKtx]
+                    val tiny = android.graphics.Bitmap.createBitmap(64, 32, android.graphics.Bitmap.Config.ARGB_8888)
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/ocr/TesseractOcrEngine.kt:160: Warning: Use the KTX function createBitmap instead? [UseKtx]
+        val out = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/ocr/TesseractOcrEngine.kt:187: Warning: Use the KTX extension function Bitmap.get instead? [UseKtx]
+                val c = bmp.getPixel(x, y)
+                        ~~~~~~~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/overlay/TranslationOverlayView.kt:41: Warning: Use the KTX extension function Canvas.withTranslation instead? [UseKtx]
+            canvas.save()
+            ~~~~~~~~~~~~~
+
+   Explanation for issues of type "UseKtx":
+   The Android KTX libraries decorates the Android platform SDK as well as
+   various libraries with more convenient extension functions available from
+   Kotlin, allowing you to use default parameters, named parameters, and
+   more.
+
+   Available options:
+
+   **remove-defaults** (default is true):
+   Whether to skip arguments that match the defaults provided by the extension.
+
+   Extensions often provide default values for some of the parameters. For example:
+   ```kotlin
+   fun Path.readLines(charset: Charset = Charsets.UTF_8): List<String> { return Files.readAllLines(this, charset) }
+   ```
+   This lint check will by default automatically omit parameters that match the default, so if your code was calling
+
+   ```kotlin
+   Files.readAllLines(file, Charset.UTF_8)
+   ```
+   lint would replace this with
+   ```kotlin
+   file.readLines()
+   ```
+   rather than
+
+   ```kotlin
+   file.readLines(Charset.UTF_8
+   ```
+   You can turn this behavior off using this option.
+
+   To configure this option, use a `lint.xml` file with an <option> like this:
+
+   ```xml
+   <lint>
+       <issue id="UseKtx">
+           <option name="remove-defaults" value="true" />
+       </issue>
+   </lint>
+   ```
+
+   **require-present** (default is true):
+   Whether to only offer extensions already available.
+
+   This option lets you only have lint suggest extension replacements if those extensions are already available on the class path (in other words, you're already depending on the library containing the extension method.)
+
+   To configure this option, use a `lint.xml` file with an <option> like this:
+
+   ```xml
+   <lint>
+       <issue id="UseKtx">
+           <option name="require-present" value="true" />
+       </issue>
+   </lint>
+   ```
+
+0 errors, 30 warnings
