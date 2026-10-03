@@ -12,17 +12,23 @@ Success
 ++ grep -q 'flags=.*DEBUGGABLE'
 + echo 'PASS: app is not debuggable'
 PASS: app is not debuggable
++ check 'usage-statistics uploader removed' '! adb shell dumpsys package com.screentranslate.app | grep -q '\''TransportBackendDiscovery'\'''
++ eval '! adb shell dumpsys package com.screentranslate.app | grep -q '\''TransportBackendDiscovery'\'''
+++ adb shell dumpsys package com.screentranslate.app
+++ grep -q TransportBackendDiscovery
++ echo 'PASS: usage-statistics uploader removed'
+PASS: usage-statistics uploader removed
 + check 'no cleartext traffic allowed' '! adb shell dumpsys package com.screentranslate.app | grep -q '\''flags=.*USES_CLEARTEXT_TRAFFIC'\'''
 + eval '! adb shell dumpsys package com.screentranslate.app | grep -q '\''flags=.*USES_CLEARTEXT_TRAFFIC'\'''
-++ adb shell dumpsys package com.screentranslate.app
 ++ grep -q 'flags=.*USES_CLEARTEXT_TRAFFIC'
+++ adb shell dumpsys package com.screentranslate.app
 + echo 'PASS: no cleartext traffic allowed'
 PASS: no cleartext traffic allowed
 + adb shell appops set com.screentranslate.app SYSTEM_ALERT_WINDOW allow
 + adb shell appops set com.screentranslate.app PROJECT_MEDIA allow
 + adb shell 'echo "chrome --disable-fre --no-default-browser-check --no-first-run" > /data/local/tmp/chrome-command-line'
 + adb shell am set-debug-app --persistent com.android.chrome
-+ SERVER=3581
++ SERVER=3568
 + nohup python3 -m http.server 8000 --directory ci/pages
 + adb reverse tcp:8000 tcp:8000
 8000
@@ -88,8 +94,8 @@ PASS: foreground service running
 + check 'bubble shown' 'applog | grep -q '\''UI_BOUNDS bubble'\'''
 + eval 'applog | grep -q '\''UI_BOUNDS bubble'\'''
 ++ applog
-++ adb logcat -d -s ScreenTranslate:D
 ++ grep -q 'UI_BOUNDS bubble'
+++ adb logcat -d -s ScreenTranslate:D
 + echo 'PASS: bubble shown'
 PASS: bubble shown
 + open_page ru.html
@@ -127,6 +133,7 @@ text 'Got it' not found
 + adb exec-out screencap -p
 ++ shown_count
 ++ applog
+++ grep -c 'Shown .* translated blocks'
 ++ adb logcat -d -s ScreenTranslate:D
 ++ grep -c 'Shown .* translated blocks'
 + n=0
@@ -181,6 +188,13 @@ tapped ui 'bubble' at 985 913
 ++ for i in $(seq 1 75)
 +++ shown_count
 +++ applog
++++ grep -c 'Shown .* translated blocks'
++++ adb logcat -d -s ScreenTranslate:D
+++ '[' 0 -gt 0 ']'
+++ sleep 2
+++ for i in $(seq 1 75)
++++ shown_count
++++ applog
 +++ adb logcat -d -s ScreenTranslate:D
 +++ grep -c 'Shown .* translated blocks'
 ++ '[' 0 -gt 0 ']'
@@ -190,6 +204,20 @@ tapped ui 'bubble' at 985 913
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
 +++ grep -c 'Shown .* translated blocks'
+++ '[' 0 -gt 0 ']'
+++ sleep 2
+++ for i in $(seq 1 75)
++++ shown_count
++++ applog
++++ adb logcat -d -s ScreenTranslate:D
++++ grep -c 'Shown .* translated blocks'
+++ '[' 0 -gt 0 ']'
+++ sleep 2
+++ for i in $(seq 1 75)
++++ shown_count
++++ applog
++++ grep -c 'Shown .* translated blocks'
++++ adb logcat -d -s ScreenTranslate:D
 ++ '[' 1 -gt 0 ']'
 ++ return 0
 + echo 'PASS: ru->ar overlay shown'
@@ -224,6 +252,7 @@ tapped ui 'Show original or translation' at 751 2143
 ++ applog
 ++ adb logcat -d -s ScreenTranslate:D
 ++ grep 'UI_BOUNDS Show original or translation '
+++ awk '{print $(NF-1), $NF}'
 ++ tail -1
 ++ awk '{print $(NF-1), $NF}'
 + xy='751 2143'
@@ -246,10 +275,10 @@ tapped ui 'Show original or translation' at 751 2143
 + adb pull /sdcard/ui.xml /tmp/ui.xml
 + grep -q 't responding' /tmp/ui.xml
 ++ applog
-++ adb logcat -d -s ScreenTranslate:D
 ++ grep 'UI_BOUNDS Translate again '
-++ tail -1
+++ adb logcat -d -s ScreenTranslate:D
 ++ awk '{print $(NF-1), $NF}'
+++ tail -1
 + xy='417 2143'
 + '[' -n '417 2143' ']'
 + adb shell input tap 417 2143
@@ -332,8 +361,8 @@ text 'Got it' not found
 + adb exec-out screencap -p
 ++ shown_count
 ++ applog
-++ adb logcat -d -s ScreenTranslate:D
 ++ grep -c 'Shown .* translated blocks'
+++ adb logcat -d -s ScreenTranslate:D
 + n=2
 + tap_ui bubble
 + dismiss_dialogs
@@ -424,8 +453,8 @@ tapped ui 'English' at 788 2143
 ++ for i in $(seq 1 75)
 +++ shown_count
 +++ applog
-+++ adb logcat -d -s ScreenTranslate:D
 +++ grep -c 'Shown .* translated blocks'
++++ adb logcat -d -s ScreenTranslate:D
 ++ '[' 4 -gt 3 ']'
 ++ return 0
 + echo 'PASS: ar->en overlay shown'
@@ -531,8 +560,8 @@ text 'Got it' not found
 ++ applog
 ++ adb logcat -d -s ScreenTranslate:D
 ++ grep 'UI_BOUNDS bubble '
-++ tail -1
 ++ awk '{print $(NF-1), $NF}'
+++ tail -1
 + xy='985 913'
 + '[' -n '985 913' ']'
 + adb shell input tap 985 913
@@ -625,9 +654,9 @@ tapped ui 'bubble' at 2305 451
 ++ sleep 2
 ++ for i in $(seq 1 75)
 +++ shown_count
-+++ grep -c 'Shown .* translated blocks'
 +++ applog
 +++ adb logcat -d -s ScreenTranslate:D
++++ grep -c 'Shown .* translated blocks'
 ++ '[' 6 -gt 5 ']'
 ++ return 0
 + echo 'PASS: landscape overlay shown'
@@ -752,7 +781,7 @@ PASS: app process alive (no crash)
 ++ grep -q com.screentranslate.app ci-output/emulator/crash.txt
 + echo 'PASS: no crash logged'
 PASS: no crash logged
-+ kill 3581
++ kill 3568
 + echo 'FAILURES: 0'
 FAILURES: 0
 + echo 0
