@@ -52,39 +52,56 @@ tap_text "Allow screen capture"; sleep 5; shot 03-consent
 tap_text "Start now" || tap_text "Start"; sleep 6; shot 04-running
 adb shell dumpsys activity services $A | grep -i -E "ServiceRecord|isForeground|foregroundServiceType" | head > $OUT/service.txt
 
-# 1) Russian screen -> Arabic (default target)
-adb shell cmd locale set-app-locales com.android.settings --locales ru-RU
-adb shell am force-stop com.android.settings
-adb shell am start -a android.settings.SETTINGS; sleep 5; shot 10-settings-ru
-tap_bubble; wait_shots 11-ru-to-ar
-# Toggle Original
-tap_text "Original"; sleep 2; shot 12-original-toggle
-tap_text "Translation"; sleep 2
-tap_text "Close translation" || tap_text "✕"; sleep 2
+# Test pages served from the runner (Android Settings hides third-party overlays, so use Chrome).
+(cd ci/pages && python3 -m http.server 8000 >/dev/null 2>&1 &)
+adb reverse tcp:8000 tcp:8000
+adb root >/dev/null 2>&1; sleep 3
+adb shell 'echo "chrome --disable-fre --no-default-browser-check --no-first-run" > /data/local/tmp/chrome-command-line'
+adb shell am set-debug-app --persistent com.android.chrome
+open_page() {
+  adb shell am start -a android.intent.action.VIEW -d "http://localhost:8000/$1" com.android.chrome >/dev/null
+  sleep 8
+  tap_text "No thanks" ; tap_text "Use without an account"; tap_text "Got it"; sleep 2
+}
+set_target() { # from current label to new label in the app's dropdown
+  adb shell am start -n $A/.ui.MainActivity; sleep 4
+  tap_text "$1"; sleep 2; tap_text "$2"; sleep 2
+}
 
-# 2) Arabic screen -> English (change target in the app)
-adb shell am start -n $A/.ui.MainActivity; sleep 4
-tap_text "Arabic  ·  العربية"; sleep 2; tap_text "English  ·  English"; sleep 2; shot 20-target-english
-adb shell cmd locale set-app-locales com.android.settings --locales ar
-adb shell am force-stop com.android.settings
-adb shell am start -a android.settings.SETTINGS; sleep 5; shot 21-settings-ar
+# 1) Russian page -> Arabic (default target)
+open_page ru.html; shot 10-page-ru
+tap_bubble; wait_shots 11-ru-to-ar
+tap_text "Original"; sleep 2; shot 12-original-toggle
+tap_text "Translation"; sleep 2; shot 13-translation-again
+tap_text "Close translation"; sleep 2
+
+# 2) Arabic page -> English
+set_target "Arabic  ·  العربية" "English  ·  English"; shot 20-target-english
+open_page ar.html; shot 21-page-ar
 tap_bubble; wait_shots 22-ar-to-en
 tap_text "Close translation"; sleep 1
 
-# 3) English screen -> Russian
-adb shell am start -n $A/.ui.MainActivity; sleep 4
-tap_text "English  ·  English"; sleep 2; tap_text "Russian  ·  Русский"; sleep 2
-adb shell cmd locale set-app-locales com.android.settings --locales en-US
-adb shell am force-stop com.android.settings
-adb shell am start -a android.settings.SETTINGS; sleep 5; shot 30-settings-en
+# 3) English page (dark) -> Russian
+set_target "English  ·  English" "Russian  ·  Русский"
+open_page en.html; shot 30-page-en
 tap_bubble; wait_shots 31-en-to-ru
+# change language from the overlay bar
+tap_text "Change target language"; sleep 2; shot 32-language-bar
+tap_text "العربية"; sleep 20; shot 33-en-to-ar
+tap_text "Close translation"; sleep 1
 
 # 4) Rotation
 adb shell settings put system accelerometer_rotation 0
-adb shell settings put system user_rotation 1; sleep 4
+adb shell settings put system user_rotation 1; sleep 5; shot 40-landscape-page
+BX2=$(( H - (36 * D / 160) )); BY2=$(( W * 35 / 100 + (28 * D / 160) ))
+adb shell input tap $BX2 $BY2; sleep 25; shot 41-landscape-translated
 tap_text "Close translation"; sleep 1
-tap_bubble; sleep 20; shot 40-landscape
-adb shell settings put system user_rotation 0; sleep 3
+adb shell settings put system user_rotation 0; sleep 4; shot 42-back-portrait
+
+# 5) Stop from the app
+adb shell am start -n $A/.ui.MainActivity; sleep 4
+tap_text "STOP SCREEN TRANSLATOR"; sleep 3; shot 50-stopped
+adb shell dumpsys activity services $A | grep -c ServiceRecord > $OUT/services-after-stop.txt
 
 adb logcat -d -s ScreenTranslate:* AndroidRuntime:E > $OUT/logcat.txt
 adb logcat -d | grep -E "FATAL|$A|MediaProjection" | tail -400 > $OUT/logcat-filtered.txt
