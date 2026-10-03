@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.screentranslate.app.ScriptDetectorTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-03T21:33:22.800Z" hostname="runnervm8df0l" time="0.009">
+<testsuite name="com.screentranslate.app.ScriptDetectorTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-03T21:45:11.001Z" hostname="runnervm8df0l" time="0.004">
   <properties/>
-  <testcase name="detectsArabic" classname="com.screentranslate.app.ScriptDetectorTest" time="0.004"/>
+  <testcase name="detectsArabic" classname="com.screentranslate.app.ScriptDetectorTest" time="0.001"/>
   <testcase name="mixedUsesMajority" classname="com.screentranslate.app.ScriptDetectorTest" time="0.0"/>
-  <testcase name="defaultLanguages" classname="com.screentranslate.app.ScriptDetectorTest" time="0.0"/>
+  <testcase name="defaultLanguages" classname="com.screentranslate.app.ScriptDetectorTest" time="0.001"/>
   <testcase name="detectsLatin" classname="com.screentranslate.app.ScriptDetectorTest" time="0.0"/>
   <testcase name="numbersHaveNoScript" classname="com.screentranslate.app.ScriptDetectorTest" time="0.0"/>
   <testcase name="detectsCyrillic" classname="com.screentranslate.app.ScriptDetectorTest" time="0.002"/>
