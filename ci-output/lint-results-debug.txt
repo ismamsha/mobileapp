@@ -72,7 +72,7 @@ distributionUrl=https\://services.gradle.org/distributions/gradle-8.14.3-bin.zip
 
    https://developer.android.com/ndk/guides/abis
 
-/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/service/ScreenCaptureService.kt:479: Warning: Unnecessary; SDK_INT is never < 26 [ObsoleteSdkInt]
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/service/ScreenCaptureService.kt:488: Warning: Unnecessary; SDK_INT is never < 26 [ObsoleteSdkInt]
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /home/runner/work/mobileapp/mobileapp/app/src/main/res/mipmap-anydpi-v26: Warning: This folder configuration (v26) is unnecessary; minSdkVersion is 26. Merge all the resources in this folder into mipmap-anydpi. [ObsoleteSdkInt]
@@ -85,6 +85,18 @@ distributionUrl=https\://services.gradle.org/distributions/gradle-8.14.3-bin.zip
    Similarly, it also looks for resources in -vNN folders, such as values-v14
    where the version qualifier is less than or equal to the minSdkVersion,
    where the contents should be merged into the best folder.
+
+/home/runner/work/mobileapp/mobileapp/app/src/main/res/drawable/ic_launcher_foreground.xml:8: Warning: Very long vector path (1569 characters), which is bad for performance. Considering reducing precision, removing minor details or rasterizing vector. [VectorPath]
+        <path android:fillColor="#FF1565E8" android:pathData="M-5.398681640625 -0.7047783879950487Q-4.906494140625 -1.2687432317450487 -4.434814453125 -1.5353447942450487Q-4.947509765625 -1.5763604192450487 -5.439697265625 -1.8839776067450487Q-6.352294921875 -2.4581963567450487 -6.342041015625 -4.109075262995049Q-6.331787109375 -5.647161200495049 -4.014404296875 -7.308294012995049Q-2.794189453125 -8.179876044245049 1.420166015625 -8.015813544245049Q1.420166015625 -8.015813544245049 1.420166015625 -5.390813544245049Q-0.968994140625 -5.452336981745049 -1.768798828125 -5.062688544245049Q-2.722412109375 -4.601262762995049 -2.722412109375 -3.7809502629950487Q-2.722412109375 -3.2785088567450487 -2.230224609375 -2.9913994817450487Q-1.758544921875 -2.7042901067450487 -0.466552734375 -3.1862237004950487Q1.061279296875 -3.7501885442450487 3.758056640625 -3.9347588567450487Q3.758056640625 -3.9347588567450487 3.758056640625 -1.3097588567450487Q0.035888671875 -0.7868096379950487 -1.194580078125 0.04375676825495134Q-2.968505859375 1.2537177057549513 -2.968505859375 2.6585028620049513Q-2.968505859375 3.7146552057549513 -1.912353515625 4.627252862004951Q-0.989501953125 5.427057549504951 1.440673828125 5.416803643254951Q4.527099609375 5.416803643254951 6.639404296875 3.8479559870049513Q6.639404296875 3.8479559870049513 6.639404296875 6.667780205754951Q4.957763671875 8.041803643254951 1.491943359375 8.041803643254951Q-3.358154296875 8.031549737004951 -5.029541015625 6.380670830754951Q-6.639404296875 4.801569268254951 -6.639404296875 2.9148505182549513Q-6.639404296875 0.7205145807549513 -5.398681640625 -0.7047783879950487Z" />
+                                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "VectorPath":
+   Using long vector paths is bad for performance. There are several ways to
+   make the pathData shorter:
+   * Using less precision
+   * Removing some minor details
+   * Using the Android Studio vector conversion tool
+   * Rasterizing the image (converting to PNG)
 
 /home/runner/work/mobileapp/mobileapp/app/src/main/res/values/colors.xml:3: Warning: The resource R.color.brand appears to be unused [UnusedResources]
     <color name="brand">#1A73E8</color>
@@ -156,10 +168,13 @@ distributionUrl=https\://services.gradle.org/distributions/gradle-8.14.3-bin.zip
 /home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/capture/ScreenCaptureController.kt:121: Warning: Use the KTX function createBitmap instead? [UseKtx]
         val padded = Bitmap.createBitmap(image.width + rowPadding / pixelStride, image.height, Bitmap.Config.ARGB_8888)
                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/ocr/TesseractOcrEngine.kt:101: Warning: Use the KTX function createBitmap instead? [UseKtx]
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/service/ScreenCaptureService.kt:234: Warning: Use the KTX function createBitmap instead? [UseKtx]
+                    val tiny = android.graphics.Bitmap.createBitmap(64, 32, android.graphics.Bitmap.Config.ARGB_8888)
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/ocr/TesseractOcrEngine.kt:155: Warning: Use the KTX function createBitmap instead? [UseKtx]
         val out = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/ocr/TesseractOcrEngine.kt:131: Warning: Use the KTX extension function Bitmap.get instead? [UseKtx]
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/ocr/TesseractOcrEngine.kt:182: Warning: Use the KTX extension function Bitmap.get instead? [UseKtx]
                 val c = bmp.getPixel(x, y)
                         ~~~~~~~~~~~~~~~~~~
 /home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/overlay/TranslationOverlayView.kt:41: Warning: Use the KTX extension function Canvas.withTranslation instead? [UseKtx]
@@ -222,4 +237,4 @@ distributionUrl=https\://services.gradle.org/distributions/gradle-8.14.3-bin.zip
    </lint>
    ```
 
-0 errors, 26 warnings
+0 errors, 28 warnings

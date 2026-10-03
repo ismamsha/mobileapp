@@ -1,0 +1,56 @@
+--------- beginning of main
+10-03 17:02:16.668  4665  4665 D ScreenTranslate: UI_BOUNDS bubble 985 913
+10-03 17:02:54.648  4665  4706 D ScreenTranslate: Tesseract OCR 719ms
+10-03 17:02:54.656  4665  4706 D ScreenTranslate: OCR: ml=13 (5859ms) tess=12 blocks=9 in 6586ms
+10-03 17:03:09.428  4665  4665 D ScreenTranslate: Shown 8 translated blocks
+10-03 17:03:10.465  4665  4665 D ScreenTranslate: UI_BOUNDS Close translation 292 2143
+10-03 17:03:10.465  4665  4665 D ScreenTranslate: UI_BOUNDS Translate again 417 2143
+10-03 17:03:10.465  4665  4665 D ScreenTranslate: UI_BOUNDS Change target language 566 2143
+10-03 17:03:10.465  4665  4665 D ScreenTranslate: UI_BOUNDS Show original or translation 751 2143
+10-03 17:03:14.870  4665  4665 D ScreenTranslate: UI_BOUNDS Close translation 261 2143
+10-03 17:03:14.872  4665  4665 D ScreenTranslate: UI_BOUNDS Translate again 386 2143
+10-03 17:03:14.872  4665  4665 D ScreenTranslate: UI_BOUNDS Change target language 535 2143
+10-03 17:03:14.872  4665  4665 D ScreenTranslate: UI_BOUNDS Show original or translation 751 2143
+10-03 17:03:19.835  4665  4665 D ScreenTranslate: UI_BOUNDS Close translation 292 2143
+10-03 17:03:19.835  4665  4665 D ScreenTranslate: UI_BOUNDS Translate again 417 2143
+10-03 17:03:19.835  4665  4665 D ScreenTranslate: UI_BOUNDS Change target language 566 2143
+10-03 17:03:19.835  4665  4665 D ScreenTranslate: UI_BOUNDS Show original or translation 751 2143
+10-03 17:03:29.451  4665  4706 D ScreenTranslate: Tesseract OCR 699ms
+10-03 17:03:29.460  4665  4706 D ScreenTranslate: OCR: ml=14 (4896ms) tess=13 blocks=9 in 5605ms
+10-03 17:03:29.726  4665  4665 D ScreenTranslate: Shown 8 translated blocks
+10-03 17:03:30.228  4665  4665 D ScreenTranslate: UI_BOUNDS Close translation 292 2143
+10-03 17:03:30.232  4665  4665 D ScreenTranslate: UI_BOUNDS Translate again 417 2143
+10-03 17:03:30.243  4665  4665 D ScreenTranslate: UI_BOUNDS Change target language 566 2143
+10-03 17:03:30.243  4665  4665 D ScreenTranslate: UI_BOUNDS Show original or translation 751 2143
+10-03 17:04:01.218  4665  4706 D ScreenTranslate: Tesseract OCR 37ms
+10-03 17:04:01.221  4665  4706 D ScreenTranslate: OCR: ml=2 (4940ms) tess=1 blocks=2 in 4980ms
+10-03 17:04:01.494  4665  4665 D ScreenTranslate: Shown 1 translated blocks
+10-03 17:04:01.915  4665  4665 D ScreenTranslate: UI_BOUNDS Close translation 292 2143
+10-03 17:04:01.915  4665  4665 D ScreenTranslate: UI_BOUNDS Translate again 417 2143
+10-03 17:04:01.915  4665  4665 D ScreenTranslate: UI_BOUNDS Change target language 566 2143
+10-03 17:04:01.915  4665  4665 D ScreenTranslate: UI_BOUNDS Show original or translation 751 2143
+10-03 17:04:07.124  4665  4665 D ScreenTranslate: UI_BOUNDS Back 258 2143
+10-03 17:04:07.124  4665  4665 D ScreenTranslate: UI_BOUNDS Arabic 400 2143
+10-03 17:04:07.125  4665  4665 D ScreenTranslate: UI_BOUNDS Russian 586 2143
+10-03 17:04:07.125  4665  4665 D ScreenTranslate: UI_BOUNDS English 788 2143
+10-03 17:04:11.680  4665  4665 D ScreenTranslate: UI_BOUNDS Close translation 292 2143
+10-03 17:04:11.680  4665  4665 D ScreenTranslate: UI_BOUNDS Translate again 417 2143
+10-03 17:04:11.680  4665  4665 D ScreenTranslate: UI_BOUNDS Change target language 565 2143
+10-03 17:04:11.732  4665  4665 D ScreenTranslate: UI_BOUNDS Show original or translation 750 2143
+10-03 17:04:18.453  4665  4703 D ScreenTranslate: Tesseract OCR 648ms
+10-03 17:04:18.459  4665  4703 D ScreenTranslate: OCR: ml=2 (5045ms) tess=9 blocks=7 in 5699ms
+10-03 17:04:18.929  4665  4665 D ScreenTranslate: Shown 5 translated blocks
+10-03 17:04:19.434  4665  4665 D ScreenTranslate: UI_BOUNDS Close translation 292 2143
+10-03 17:04:19.434  4665  4665 D ScreenTranslate: UI_BOUNDS Translate again 417 2143
+10-03 17:04:19.434  4665  4665 D ScreenTranslate: UI_BOUNDS Change target language 565 2143
+10-03 17:04:19.434  4665  4665 D ScreenTranslate: UI_BOUNDS Show original or translation 750 2143
+10-03 17:04:51.663  4665  4703 D ScreenTranslate: Tesseract OCR 599ms
+10-03 17:04:51.670  4665  4703 D ScreenTranslate: OCR: ml=11 (5083ms) tess=12 blocks=7 in 5689ms
+10-03 17:10:11.524  4665  4665 D ScreenTranslate: Screen size changed: 2400x1080
+10-03 17:10:11.866  4665  4665 D ScreenTranslate: UI_BOUNDS bubble 2305 451
+10-03 17:10:26.323  4665  4706 D ScreenTranslate: Tesseract OCR 1291ms
+10-03 17:10:26.330  4665  4706 D ScreenTranslate: OCR: ml=8 (4949ms) tess=9 blocks=7 in 6247ms
+10-03 17:12:58.877  4665  4665 D ScreenTranslate: Screen size changed: 1080x2400
+10-03 17:12:59.243  4665  4665 D ScreenTranslate: UI_BOUNDS bubble 985 913
+10-03 17:13:13.185  4665  4706 D ScreenTranslate: Tesseract OCR 652ms
+10-03 17:13:13.192  4665  4706 D ScreenTranslate: OCR: ml=11 (5278ms) tess=12 blocks=7 in 5937ms
