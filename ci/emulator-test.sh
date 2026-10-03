@@ -54,8 +54,8 @@ adb install -r -g app/build/outputs/apk/debug/app-debug.apk || exit 1
 adb shell appops set $A SYSTEM_ALERT_WINDOW allow
 adb shell appops set $A PROJECT_MEDIA allow
 
-# Test pages from the runner. adb root restarts adbd, so it must come before adb reverse.
-adb root; sleep 5; adb wait-for-device
+# Test pages served from the runner via adb reverse.
+# (no adb root: it breaks uiautomator dump; shell can write the Chrome flags file)
 adb shell 'echo "chrome --disable-fre --no-default-browser-check --no-first-run" > /data/local/tmp/chrome-command-line'
 adb shell am set-debug-app --persistent com.android.chrome
 nohup python3 -m http.server 8000 --directory ci/pages >/dev/null 2>&1 &
