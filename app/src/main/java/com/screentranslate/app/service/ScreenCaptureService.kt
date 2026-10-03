@@ -153,7 +153,7 @@ class ScreenCaptureService : Service() {
             return
         }
         if (!Settings.canDrawOverlays(this)) {
-            shutdown("Screen Translate needs permission to appear over other apps.")
+            shutdown("Muin Screen Translator needs permission to appear over other apps.")
             return
         }
         val resultCode = intent.getIntExtra(EXTRA_RESULT_CODE, 0)
@@ -207,7 +207,7 @@ class ScreenCaptureService : Service() {
             val msg = if (DeviceUtils.isXiaomiFamily) {
                 "The bubble was blocked. On Xiaomi, allow \"Display pop-up windows while running in the background\"."
             } else {
-                "The bubble could not be shown. Allow Screen Translate to appear over other apps."
+                "The bubble could not be shown. Allow Muin Screen Translator to appear over other apps."
             }
             Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
         }
@@ -227,6 +227,15 @@ class ScreenCaptureService : Service() {
         scope.launch {
             val s = container.settings.current
             ensureOcrData()
+            // Load the OCR engine now so the first tap is fast.
+            container.appScope.launch {
+                runCatching { container.tesseractOcr.warmUp() }
+                runCatching {
+                    val tiny = android.graphics.Bitmap.createBitmap(64, 32, android.graphics.Bitmap.Config.ARGB_8888)
+                    container.mlKitOcr.recognizeLines(tiny)
+                    tiny.recycle()
+                }
+            }
             try {
                 container.translationEngine.ensureModel(s.targetLanguage.code, downloadListener)
                 status?.hide()

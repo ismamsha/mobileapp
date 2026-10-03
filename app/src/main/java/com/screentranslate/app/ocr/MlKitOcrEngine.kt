@@ -16,7 +16,7 @@ class MlKitOcrEngine : OcrEngine, LineRecognizer {
     override suspend fun recognizeLines(bitmap: Bitmap): List<OcrLine> {
         val result = recognizer.process(InputImage.fromBitmap(bitmap, 0)).await()
         val lines = ArrayList<OcrLine>()
-        for (block in result.textBlocks) {
+        for ((index, block) in result.textBlocks.withIndex()) {
             for (line in block.lines) {
                 val r = line.boundingBox ?: continue
                 lines += OcrLine(
@@ -24,6 +24,8 @@ class MlKitOcrEngine : OcrEngine, LineRecognizer {
                     box = Box(r.left, r.top, r.right, r.bottom),
                     confidence = line.confidence,
                     script = ScriptDetector.dominant(line.text),
+                    group = index,
+                    languageHint = line.recognizedLanguage,
                 )
             }
         }

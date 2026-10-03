@@ -47,7 +47,7 @@ class AppContainer(app: Application) {
     val mlKitOcr by lazy { MlKitOcrEngine() }
     val tesseractOcr by lazy { TesseractOcrEngine(tessData) { settings.current.tesseractLanguages() } }
     val ocrEngine by lazy {
-        HybridOcrEngine(mlKitOcr, tesseractOcr) { settings.current.tesseractLanguages().isNotEmpty() }
+        HybridOcrEngine(mlKitOcr, tesseractOcr) { settings.current.tesseractLanguages() }
     }
 
     fun trimMemory() {

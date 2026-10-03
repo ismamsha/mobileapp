@@ -31,7 +31,7 @@ jobs:
         if: steps.build.outcome == 'success'
         run: |
           mkdir -p ci-output
-          cp app/build/outputs/apk/debug/app-debug.apk ci-output/ScreenTranslate.apk
+          cp app/build/outputs/apk/debug/app-debug.apk ci-output/MuinScreenTranslator.apk
           ./gradlew assembleDebug -PwithX86 --no-daemon -q
       - name: Enable KVM
         if: steps.build.outcome == 'success'
@@ -58,7 +58,7 @@ jobs:
         run: |
           mkdir -p ci-output
           tail -c 400000 build.log > ci-output/build.log || true
-          [ -f ci-output/ScreenTranslate.apk ] || cp app/build/outputs/apk/debug/app-debug.apk ci-output/ScreenTranslate.apk 2>/dev/null || true
+          [ -f ci-output/MuinScreenTranslator.apk ] || cp app/build/outputs/apk/debug/app-debug.apk ci-output/MuinScreenTranslator.apk 2>/dev/null || true
           cp app/build/reports/lint-results-debug.txt ci-output/ 2>/dev/null || true
           mkdir -p ci-output/test-results && cp app/build/test-results/testDebugUnitTest/*.xml ci-output/test-results/ 2>/dev/null || true
           echo "${{ steps.build.outcome }}" > ci-output/STATUS

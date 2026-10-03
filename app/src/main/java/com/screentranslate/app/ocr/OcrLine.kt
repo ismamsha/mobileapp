@@ -36,6 +36,10 @@ data class OcrLine(
     /** 0..1, null if the engine does not report one. */
     val confidence: Float?,
     val script: Script,
+    /** Engine-specific block id (ML Kit text block), -1 if unknown. */
+    val group: Int = -1,
+    /** Language the engine itself guessed, if any. */
+    val languageHint: String? = null,
 )
 
 /** Lines grouped into one translatable block. */

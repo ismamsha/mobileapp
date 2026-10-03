@@ -10,7 +10,7 @@
     <!-- Screen capture runs in a foreground service (required on Android 10+ / 14+). -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
-    <!-- Android 13+: show the "Screen Translate is running" notification. -->
+    <!-- Android 13+: show the "Muin Screen Translator is running" notification. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
