@@ -16,12 +16,14 @@ try:
     root = ET.parse('/tmp/ui.xml').getroot()
 except Exception:
     sys.exit(0)
+hit = None
 for n in root.iter('node'):
     t = (n.get('text') or '') + '|' + (n.get('content-desc') or '')
     if want in t:
-        x1, y1, x2, y2 = map(int, re.findall(r'\d+', n.get('bounds')))
-        print((x1 + x2) // 2, (y1 + y2) // 2)
-        break
+        hit = n  # last match: buttons sit below headings with the same text
+if hit is not None:
+    x1, y1, x2, y2 = map(int, re.findall(r'\d+', hit.get('bounds')))
+    print((x1 + x2) // 2, (y1 + y2) // 2)
 PY
 )
   if [ -n "$xy" ]; then adb shell input tap $xy; echo "tapped '$1' at $xy"; return 0; fi
