@@ -153,6 +153,9 @@ distributionUrl=https\://services.gradle.org/distributions/gradle-8.14.3-bin.zip
 /home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/overlay/BackgroundSampler.kt:31: Warning: Use the KTX extension function Bitmap.get instead? [UseKtx]
                 pixels += bitmap.getPixel(r, y)
                           ~~~~~~~~~~~~~~~~~~~~~
+/home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/ocr/ContainerDetector.kt:19: Warning: Use the KTX extension function Bitmap.get instead? [UseKtx]
+    override fun pixel(x: Int, y: Int): Int = bitmap.getPixel(x, y)
+                                              ~~~~~~~~~~~~~~~~~~~~~
 /home/runner/work/mobileapp/mobileapp/app/src/main/java/com/screentranslate/app/util/DeviceUtils.kt:26: Warning: Use the KTX extension function String.toUri instead? [UseKtx]
         Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:${context.packageName}"))
                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -243,4 +246,4 @@ distributionUrl=https\://services.gradle.org/distributions/gradle-8.14.3-bin.zip
    </lint>
    ```
 
-0 errors, 30 warnings
+0 errors, 31 warnings

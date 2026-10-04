@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.screentranslate.app.LanguageDecisionTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-03T22:20:36.670Z" hostname="runnervm8df0l" time="0.023">
+<testsuite name="com.screentranslate.app.LanguageDecisionTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-04T09:49:18.301Z" hostname="runnervm8df0l" time="0.017">
   <properties/>
-  <testcase name="lowConfidenceLatinIsEnglish" classname="com.screentranslate.app.LanguageDecisionTest" time="0.021"/>
+  <testcase name="lowConfidenceLatinIsEnglish" classname="com.screentranslate.app.LanguageDecisionTest" time="0.012"/>
   <testcase name="cyrillicDefaultsToRussian" classname="com.screentranslate.app.LanguageDecisionTest" time="0.001"/>
-  <testcase name="noLettersIsNull" classname="com.screentranslate.app.LanguageDecisionTest" time="0.001"/>
-  <testcase name="arabicScriptIsArabic" classname="com.screentranslate.app.LanguageDecisionTest" time="0.0"/>
+  <testcase name="noLettersIsNull" classname="com.screentranslate.app.LanguageDecisionTest" time="0.0"/>
+  <testcase name="arabicScriptIsArabic" classname="com.screentranslate.app.LanguageDecisionTest" time="0.002"/>
   <testcase name="shortLatinFallsBackToEnglish" classname="com.screentranslate.app.LanguageDecisionTest" time="0.0"/>
   <testcase name="cyrillicAcceptsConfidentUkrainian" classname="com.screentranslate.app.LanguageDecisionTest" time="0.0"/>
-  <testcase name="longLatinUsesIdentifiedLanguage" classname="com.screentranslate.app.LanguageDecisionTest" time="0.0"/>
+  <testcase name="longLatinUsesIdentifiedLanguage" classname="com.screentranslate.app.LanguageDecisionTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
