@@ -48,6 +48,18 @@ class ContainerGroupingTest {
         assertEquals(1, group(c, lines).size)
     }
 
+    /** WhatsApp light theme: a big white bubble covering most of a light beige wallpaper. */
+    @Test fun bigWhiteBubbleOnLightWallpaper() {
+        val c = Canvas(1080, 1400, BEIGE)
+        c.fill(Box(100, 100, 980, 1350), WHITE)
+        val lines = listOf(
+            line(c, "Хочу оставить отзыв о занятии.", 140, 230, 860, 264),
+            line(c, "Я в полном восторге! Урок", 140, 290, 700, 324),
+            line(c, "пролетел совершенно незаметно.", 140, 350, 840, 384),
+        )
+        assertEquals(1, group(c, lines).size)
+    }
+
     @Test fun twoBubblesStaySeparate() {
         val c = Canvas(1080, 1400, BEIGE)
         c.fill(Box(120, 200, 900, 300), WHITE)

@@ -38,20 +38,19 @@ class ContainerDetector(private val px: PixelSource) {
 
     /** Most common color of the screen, from a coarse grid. */
     private val pageColor: Int by lazy {
-        val counts = HashMap<Int, Int>()
+        val samples = ArrayList<Int>(36 * 64)
         val stepX = max(1, px.width / 36)
         val stepY = max(1, px.height / 64)
         var y = stepY / 2
         while (y < px.height) {
             var x = stepX / 2
             while (x < px.width) {
-                val c = quantize(px.pixel(x, y))
-                counts[c] = (counts[c] ?: 0) + 1
+                samples += px.pixel(x, y)
                 x += stepX
             }
             y += stepY
         }
-        counts.maxByOrNull { it.value }?.key ?: 0
+        dominantColor(samples) ?: 0
     }
 
     /** [upper] is the line above [lower]. */
@@ -96,7 +95,7 @@ class ContainerDetector(private val px: PixelSource) {
         var x = startX.coerceIn(0, px.width - 1)
         var misses = 0
         while (x in 0 until px.width) {
-            if (!similar(px.pixel(x, y), fill)) {
+            if (!similar(px.pixel(x, y), fill, 14)) {
                 // Require a few different pixels in a row: ignores a stray glyph pixel.
                 if (++misses >= 3) return x
             } else {
@@ -125,14 +124,26 @@ class ContainerDetector(private val px: PixelSource) {
             }
             y += stepY
         }
-        if (samples.isEmpty()) return null
-        val counts = samples.groupingBy { quantize(it) }.eachCount()
-        val dominant = counts.maxByOrNull { it.value }!!.key
+        val dominant = dominantColor(samples) ?: return null
         val matching = samples.count { similar(it, dominant) }
         return if (matching >= samples.size * 0.9f) dominant else null
     }
 
     companion object {
+        /**
+         * Average of the most common color bucket. Averaging the real pixels (not the bucket) keeps
+         * close colors apart, like a white bubble on WhatsApp's light beige wallpaper.
+         */
+        internal fun dominantColor(samples: List<Int>): Int? {
+            if (samples.isEmpty()) return null
+            val buckets = samples.groupBy { quantize(it) }
+            val top = buckets.maxByOrNull { it.value.size }!!.value
+            val r = top.sumOf { (it shr 16) and 0xFF } / top.size
+            val g = top.sumOf { (it shr 8) and 0xFF } / top.size
+            val b = top.sumOf { it and 0xFF } / top.size
+            return (0xFF shl 24) or (r shl 16) or (g shl 8) or b
+        }
+
         private fun quantize(c: Int): Int =
             (((c shr 16) and 0xF0) shl 16) or (((c shr 8) and 0xF0) shl 8) or (c and 0xF0) or (0xFF shl 24)
 
