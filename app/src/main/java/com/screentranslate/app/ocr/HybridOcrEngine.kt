@@ -32,7 +32,7 @@ class HybridOcrEngine(
         if (langs.isNotEmpty() && mlKitAvgMs > SLOW_ML_KIT_MS && taps % 15 != 0 && tesseract.hasData(langs)) {
             val tessLines = runCatching { tesseract.recognizeFullPage(bitmap, langs) }
                 .onFailure { Logx.w("Tesseract OCR failed", it) }.getOrDefault(emptyList())
-            val blocks = TextBlockGrouper.group(OcrMerger.merge(emptyList(), tessLines)).map { it.toOcrBlock() }
+            val blocks = TextBlockGrouper.group(OcrMerger.merge(emptyList(), tessLines), container = containers(bitmap)).map { it.toOcrBlock() }
             Logx.d("OCR (Tesseract only, ML Kit avg ${mlKitAvgMs}ms): tess=${tessLines.size} blocks=${blocks.size} in ${System.currentTimeMillis() - start}ms")
             // Nothing found (e.g. text in the target language's script, which Tesseract isn't
             // loaded for): let ML Kit have a look too.
@@ -62,9 +62,14 @@ class HybridOcrEngine(
             Logx.d("Tesseract OCR ${System.currentTimeMillis() - t}ms")
         }
         val merged = OcrMerger.merge(mlLines, tessLines)
-        val blocks = TextBlockGrouper.group(merged).map { it.toOcrBlock() }
+        val blocks = TextBlockGrouper.group(merged, container = containers(bitmap)).map { it.toOcrBlock() }
         Logx.d("OCR: ml=${mlLines.size} (${mlTime}ms) tess=${tessLines.size} blocks=${blocks.size} in ${System.currentTimeMillis() - start}ms")
         return blocks
+    }
+
+    private fun containers(bitmap: Bitmap): (Box, Box) -> Container {
+        val detector = ContainerDetector(BitmapPixels(bitmap))
+        return { upper, lower -> detector.classify(upper, lower) }
     }
 
     companion object {

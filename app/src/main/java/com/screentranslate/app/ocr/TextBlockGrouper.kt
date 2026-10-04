@@ -11,7 +11,15 @@ import kotlin.math.min
  */
 object TextBlockGrouper {
 
-    fun group(lines: List<OcrLine>, maxLinesPerBlock: Int = 40): List<LineGroup> {
+    /**
+     * @param container tells whether two lines share a box on screen (from the screenshot pixels);
+     *   null when no image is available, then only spacing and punctuation are used.
+     */
+    fun group(
+        lines: List<OcrLine>,
+        maxLinesPerBlock: Int = 40,
+        container: ((upper: Box, lower: Box) -> Container)? = null,
+    ): List<LineGroup> {
         val rows = mergeSameRow(lines.filter { it.text.isNotBlank() && it.box.width > 0 && it.box.height > 0 })
         val sorted = rows.sortedWith(compareBy<OcrLine> { it.box.top }.thenBy { it.box.left })
         val groups = mutableListOf<MutableList<OcrLine>>()
@@ -21,7 +29,7 @@ object TextBlockGrouper {
             for (g in groups) {
                 if (g.size >= maxLinesPerBlock) continue
                 val last = g.last()
-                if (!continuesParagraph(last, line, g)) continue
+                if (!continuesParagraph(last, line, g, container)) continue
                 val gap = line.box.top - last.box.bottom
                 if (gap < bestGap) {
                     bestGap = gap
@@ -81,8 +89,26 @@ object TextBlockGrouper {
         )
     }
 
-    private fun continuesParagraph(last: OcrLine, line: OcrLine, group: List<OcrLine>): Boolean {
+    private fun continuesParagraph(
+        last: OcrLine,
+        line: OcrLine,
+        group: List<OcrLine>,
+        container: ((Box, Box) -> Container)?,
+    ): Boolean {
         if (!compatibleScripts(last.script, line.script)) return false
+        // Only ask about lines that could plausibly continue (cheap checks first).
+        val near = line.box.top - last.box.bottom in -last.box.height..(max(last.box.height, line.box.height) * 2) &&
+            last.box.horizontalOverlap(line.box) > 0
+        val where = if (near) container?.invoke(last.box, line.box) else null
+        when (where) {
+            // Inside one bubble/card: one message, so one paragraph whatever the punctuation.
+            Container.SAME_BOX -> {
+                val groupMaxH = group.maxOf { it.box.height }
+                return line.box.height <= groupMaxH * 2 && line.box.height * 2.5f >= groupMaxH
+            }
+            Container.DIFFERENT -> return false
+            else -> Unit
+        }
         val h1 = last.box.height.toFloat()
         val h2 = line.box.height.toFloat()
         // Glyph boxes vary with ascenders/descenders: a Cyrillic line with no capitals can be half as
@@ -112,6 +138,8 @@ object TextBlockGrouper {
         // a separate item usually sits further away.
         val end = last.text.trimEnd().lastOrNull()
         if (end != null && end in ".!?:;…") {
+            // Plain page text outside any box: each sentence is translated on its own.
+            if (where == Container.PLAIN) return false
             val separate = if (typicalGap != null) gap > typicalGap * 1.3f + avgH * 0.15f else gap > avgH * 0.6f
             if (separate) return false
         }
